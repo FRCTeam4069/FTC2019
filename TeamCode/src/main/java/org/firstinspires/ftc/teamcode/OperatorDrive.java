@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "cooler teleop")
+@TeleOp(name = "coolerhdgff teleop")
 public class OperatorDrive extends OpMode {
 
     private DcMotor left;
@@ -15,6 +15,7 @@ public class OperatorDrive extends OpMode {
     public void init() {
         left = hardwareMap.get(DcMotor.class, "motorTest");
         right = hardwareMap.get(DcMotor.class, "motorTest2");
+
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
     }
