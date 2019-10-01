@@ -12,12 +12,12 @@ import org.opencv.core.Mat;
 @TeleOp(name = "Camera Test")
 public class CameraTest extends OpMode {
 
-        StoneDetector detector;
+        StoneDetector2 detector;
     private WebcamName webcam;
 
     @Override
     public void init() {
-        detector = new StoneDetector(telemetry);
+        detector = new StoneDetector2(telemetry);
         telemetry.addData( "DogeCV Camera Test", "Init");
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
