@@ -23,8 +23,6 @@ public class StoneDetector extends DogeCVDetector {
     @Override
     public Mat process(Mat input) {
         pipeline.process(input.clone());
-        boolean ftcBade = true;
-        telemtry.addData("this dum?", ftcBade);
         telemtry.addData("Number of contours", pipeline.filterContoursOutput().size());
 
 
