@@ -30,7 +30,7 @@ public class PID extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             int LMotorPosition = LeftMotor.getCurrentPosition();
             int RMotorPosition = RightMotor.getCurrentPosition();
 

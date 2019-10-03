@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.detectors;
 
 
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
@@ -12,11 +13,11 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 
-public class StoneDetector2 extends DogeCVDetector {
+public class SkyStoneDetector extends DogeCVDetector {
     SkyStonePipeline pipeline = new SkyStonePipeline();
     Telemetry telemtry;
 
-    public StoneDetector2(Telemetry telemetry) {
+    public SkyStoneDetector(Telemetry telemetry) {
         this.telemtry = telemetry;
     }
 
@@ -32,19 +33,20 @@ public class StoneDetector2 extends DogeCVDetector {
         int rectangle = 0;
         int counter = 0;
 
-        for (int i = 0; i < contours.size(); i++ ) {
-            MatOfPoint contour = contours.get (i);
+        for (int i = 0; i < contours.size(); i++) {
+            MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
             if (boundingRect.height < 200 && counter < 2) {
                 rectangle += boundingRect.x;
-               counter ++;
+                counter++;
             }
 
             Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
         }
-        rectangle/=2;
+        rectangle /= 2;
         return processed;
     }
+
     @Override
     public void useDefaults() {
     }
