@@ -22,28 +22,48 @@ public class MecanumTest extends OpMode {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        telemetry.addData("Left front mode", leftFront.getMode());
     }
+
     @Override
     public void loop() {
-        double leftBackSpeed = 0;
-        double direction = Math.PI * 0;
-        double speed = 1;
+        if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) {
 
-        double rightFrontSpeed = 0;
+            double y = gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x;
+            double theta = Math.atan2(y, x);
+            double leftBackSpeed = 0;
+            double direction = theta;
+            double speed = Math.hypot(x, y);
 
-        leftBackSpeed = Math.sin(direction - Math.PI/4) * speed;
-        rightFrontSpeed = Math.sin(direction - Math.PI/4) * speed;
+            double rightFrontSpeed = 0;
 
-        double leftFrontSpeed = 0;
+            leftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
+            rightFrontSpeed = Math.sin(direction - Math.PI / 4) * speed;
 
-        double rightBackSpeed = 0;
+            double leftFrontSpeed = 0;
 
-        leftFrontSpeed = Math.sin(direction + Math.PI/4) * speed;
-        rightBackSpeed = Math.sin(direction + Math.PI/4) * speed;
+            double rightBackSpeed = 0;
 
-        leftBack.setPower(leftBackSpeed);
-        rightBack.setPower(rightBackSpeed);
-        leftFront.setPower(leftFrontSpeed);
-        rightFront.setPower(rightFrontSpeed);
+            leftFrontSpeed = Math.sin(direction + Math.PI / 4) * speed;
+            rightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
+
+            leftBack.setPower(leftBackSpeed);
+            rightBack.setPower(rightBackSpeed);
+            leftFront.setPower(leftFrontSpeed);
+            rightFront.setPower(rightFrontSpeed);
+
+            telemetry.addData("angle", theta);
+            telemetry.addData("FL=", leftFrontSpeed);
+            telemetry.addData("FR=", rightFrontSpeed);
+            telemetry.addData("BL=", leftBackSpeed);
+            telemetry.addData("BR=", rightBackSpeed);
+        } else {
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftBack.setPower(0);
+            rightBack.setPower(0);
+        }
     }
 }
