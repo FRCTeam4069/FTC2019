@@ -7,11 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
+import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
 
 @TeleOp(name = "Camera Test")
 public class CameraTest extends OpMode {
 
     SkyStoneDetector detector;
+
     private WebcamName webcam;
 
     @Override
@@ -30,6 +32,7 @@ public class CameraTest extends OpMode {
 
     @Override
     public void loop() {
+
 
     }
 }

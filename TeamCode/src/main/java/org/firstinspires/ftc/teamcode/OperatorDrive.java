@@ -8,12 +8,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @TeleOp(name = "coolerhdgff teleop")
 public class OperatorDrive extends OpMode {
 
-    private DcMotor left;
+    private DcMotor leftF;
     private DcMotor right;
 
     @Override
     public void init() {
-        left = hardwareMap.get(DcMotor.class, "mecanum");
+//        left = hardwareMap.get(DcMotor.class, "mecanum");
 //        right = hardwareMap.get(DcMotor.class, "motorTest2");
 
 
@@ -23,8 +23,8 @@ public class OperatorDrive extends OpMode {
     @Override
     public void loop() {
 
-        double ABCD = gamepad1.right_trigger;
-        left.setPower(ABCD);
+      //  double ABCD = gamepad1.right_trigger;
+    //    left.setPower(ABCD);
 
 //        double speed = gamepad1.right_trigger - gamepad1.left_trigger;
 //        double turn = gamepad1.left_stick_x;
