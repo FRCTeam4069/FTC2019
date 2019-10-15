@@ -36,11 +36,11 @@ public class Drivetrain {
     /**
      *
      *
-     * @param forward
      * @param strafe
+     * @param forward
      * @param turn
      */
-    public void drive(double forward, double strafe, double turn) {
+    public void drive(double strafe, double forward, double turn) {
         double direction = Math.atan2(strafe, forward);
         double speed = Math.hypot(forward, strafe);
         double leftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
