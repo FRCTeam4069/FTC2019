@@ -18,9 +18,11 @@ public class MotorTest extends OpMode {
        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+
+       rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void loop() {
-        leftBack.setPower (0.5);
+        telemetry.addData("ticks: ", rightBack.getCurrentPosition());
     }
 }

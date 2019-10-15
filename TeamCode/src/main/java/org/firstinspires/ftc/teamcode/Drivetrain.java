@@ -41,6 +41,7 @@ public class Drivetrain {
      * @param turn
      */
     public void drive(double strafe, double forward, double turn) {
+
         double direction = Math.atan2(strafe, forward);
         double speed = Math.hypot(forward, strafe);
         double leftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
@@ -99,7 +100,12 @@ public class Drivetrain {
         leftBack.setPower(0);
         rightBack.setPower(0);
     }
-}
+        telemetry.addData ("Left Front Power: ", leftFrontSpeed);
+        telemetry.addData ("Left Back Power: ", leftBackSpeed);
+        telemetry.addData ("Right Front Power: ", rightFrontSpeed);
+        telemetry.addData ("Right Back Power: ", rightBackSpeed);
+
+    }
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
         if(instance == null) {
             instance = new Drivetrain(hardwareMap, telemetry);
