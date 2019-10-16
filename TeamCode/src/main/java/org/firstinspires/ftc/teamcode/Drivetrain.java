@@ -18,12 +18,7 @@ public class Drivetrain {
     private DcMotor leftBack;
     private DcMotor rightBack;
 
-    private HardwareMap hardwareMap;
-    private Telemetry telemetry;
-
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -34,10 +29,10 @@ public class Drivetrain {
     }
 
     /**
+     * A function to translate operator inputs into wheel speeds and then update the motors.
      *
-     *
-     * @param forward
-     * @param strafe
+     * @param forward The component of motion in the forward direction
+     * @param strafe The component of motion in the lateral direction
      * @param turn
      */
     public void drive(double forward, double strafe, double turn) {
@@ -74,8 +69,7 @@ public class Drivetrain {
                 rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
                 rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
             }
-        }
-        else if (turn > 0) {
+        } else if (turn > 0) {
             rightBack.setPower(rightBackSpeed - turn);
             rightFront.setPower(rightFrontSpeed - turn);
             leftBack.setPower(leftBackSpeed + turn);
@@ -92,16 +86,16 @@ public class Drivetrain {
                 rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
                 rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
             }
+        } else {
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftBack.setPower(0);
+            rightBack.setPower(0);
         }
-    else {
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftBack.setPower(0);
-        rightBack.setPower(0);
     }
-}
+
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Drivetrain(hardwareMap, telemetry);
         }
 
