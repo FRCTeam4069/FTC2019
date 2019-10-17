@@ -19,6 +19,12 @@ public class Drivetrain {
     private DcMotor rightBack;
     Telemetry telemetry;
 
+    private double lastTime = -1.0;
+    private double BLlastPosition = -1.0;
+    private double FRlastPosition = -1.0;
+    private double FLlastPosition = -1.0;
+    private double BRlastPosition = -1.0;
+
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -40,6 +46,37 @@ public class Drivetrain {
     public void drive(double strafe, double forward, double turn) {
 
         double direction = Math.atan2(strafe, forward);
+        double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double rightFrontCurPos = ((double)rightFront.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
+        double leftFrontCurPos = ((double)leftFront.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
+        double rightBackCurPos = ((double)rightBack.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
+        double leftBackChange = leftBackCurPos - BLlastPosition;
+        double rightFrontChange = rightFrontCurPos - FRlastPosition;
+        double leftFrontChange = leftFrontCurPos - FLlastPosition;
+        double rightBackChange = rightBackCurPos - BRlastPosition;
+
+        double currentTime = System.currentTimeMillis();
+        double timeElapsed;
+        if (lastTime > 0){
+            timeElapsed = currentTime - lastTime;
+        }
+        else  {
+            timeElapsed = 0;
+        }
+
+        double setVelocity = 1.0;
+
+        double leftBackVel = leftBackChange / timeElapsed;
+        double rightFrontVel = rightFrontChange / timeElapsed;
+        double leftFrontVel = leftFrontChange / timeElapsed;
+        double rightBackVel = rightBackChange / timeElapsed;
+        double desiredVel = 0;
+        double leftBackError = desiredVel - leftBackVel;
+        double rightFrontError = desiredVel - rightFrontVel;
+        double leftFrontError = desiredVel - leftFrontVel;
+        double rightBackError = desiredVel - rightBackVel;
+        double kP = 0.1;
+
         double speed = Math.hypot(forward, strafe);
         double leftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
         double rightFrontSpeed = Math.sin(direction - Math.PI / 4) * speed;
@@ -99,7 +136,11 @@ public class Drivetrain {
         telemetry.addData ("Left Back Power: ", leftBackSpeed);
         telemetry.addData ("Right Front Power: ", rightFrontSpeed);
         telemetry.addData ("Right Back Power: ", rightBackSpeed);
-
+        lastTime = currentTime;
+        BLlastPosition = leftBack.getCurrentPosition();
+        FRlastPosition = rightFront.getCurrentPosition();
+        FLlastPosition = leftFront.getCurrentPosition();
+        BRlastPosition = rightBack.getCurrentPosition();
     }
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
         if (instance == null) {
