@@ -17,13 +17,9 @@ public class Drivetrain {
     private DcMotor rightFront;
     private DcMotor leftBack;
     private DcMotor rightBack;
-
-    private HardwareMap hardwareMap;
-    private Telemetry telemetry;
+    Telemetry telemetry;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -31,13 +27,14 @@ public class Drivetrain {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.telemetry = telemetry;
     }
 
     /**
+     * A function to translate operator inputs into wheel speeds and then update the motors.
      *
-     *
-     * @param strafe
-     * @param forward
+     * @param forward The component of motion in the forward direction
+     * @param strafe The component of motion in the lateral direction
      * @param turn
      */
     public void drive(double strafe, double forward, double turn) {
@@ -75,8 +72,7 @@ public class Drivetrain {
                 rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
                 rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
             }
-        }
-        else if (turn > 0) {
+        } else if (turn > 0) {
             rightBack.setPower(rightBackSpeed - turn);
             rightFront.setPower(rightFrontSpeed - turn);
             leftBack.setPower(leftBackSpeed + turn);
@@ -93,13 +89,12 @@ public class Drivetrain {
                 rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
                 rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
             }
+        } else {
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftBack.setPower(0);
+            rightBack.setPower(0);
         }
-    else {
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftBack.setPower(0);
-        rightBack.setPower(0);
-    }
         telemetry.addData ("Left Front Power: ", leftFrontSpeed);
         telemetry.addData ("Left Back Power: ", leftBackSpeed);
         telemetry.addData ("Right Front Power: ", rightFrontSpeed);
@@ -107,7 +102,7 @@ public class Drivetrain {
 
     }
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Drivetrain(hardwareMap, telemetry);
         }
 
