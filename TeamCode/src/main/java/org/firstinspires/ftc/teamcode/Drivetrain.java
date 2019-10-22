@@ -47,9 +47,9 @@ public class Drivetrain {
 
         double direction = Math.atan2(strafe, forward);
         double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
-        double rightFrontCurPos = ((double)rightFront.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
-        double leftFrontCurPos = ((double)leftFront.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
-        double rightBackCurPos = ((double)rightBack.getCurrentPosition() / 480.0 * 2.0 * Math.PI);
+        double rightFrontCurPos = ((double)rightFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double leftFrontCurPos = ((double)leftFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double rightBackCurPos = ((double)rightBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
         double leftBackChange = leftBackCurPos - BLlastPosition;
         double rightFrontChange = rightFrontCurPos - FRlastPosition;
         double leftFrontChange = leftFrontCurPos - FLlastPosition;
@@ -66,81 +66,57 @@ public class Drivetrain {
 
         double setVelocity = 1.0;
 
-        double leftBackVel = leftBackChange / timeElapsed;
-        double rightFrontVel = rightFrontChange / timeElapsed;
-        double leftFrontVel = leftFrontChange / timeElapsed;
-        double rightBackVel = rightBackChange / timeElapsed;
-        double desiredVel = 0;
-        double leftBackError = desiredVel - leftBackVel;
-        double rightFrontError = desiredVel - rightFrontVel;
-        double leftFrontError = desiredVel - leftFrontVel;
-        double rightBackError = desiredVel - rightBackVel;
-        double kP = 0.1;
+        double actualLeftBackVel = leftBackChange / timeElapsed;
+        double actualRightFrontVel = rightFrontChange / timeElapsed;
+        double actualLeftFrontVel = leftFrontChange / timeElapsed;
+        double actualRightBackVel = rightBackChange / timeElapsed;
 
         double speed = Math.hypot(forward, strafe);
-        double leftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
-        double rightFrontSpeed = Math.sin(direction - Math.PI / 4) * speed;
-        double leftFrontSpeed = Math.sin(direction + Math.PI / 4) * speed;
-        double rightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
+        double desiredLeftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
+        double desiredRightFrontSpeed = Math.sin(direction - Math.PI / 4) * speed;
+        double desiredLeftFrontSpeed = Math.sin(direction + Math.PI / 4) * speed;
+        double desiredRightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
 
-        leftBack.setPower(leftBackSpeed);
-        rightBack.setPower(rightBackSpeed);
-        leftFront.setPower(leftFrontSpeed);
-        rightFront.setPower(rightFrontSpeed);
+        desiredLeftBackSpeed = desiredLeftBackSpeed + turn;
+        desiredLeftFrontSpeed = desiredLeftFrontSpeed + turn;
+        desiredRightBackSpeed = desiredRightBackSpeed - turn;
+        desiredRightFrontSpeed = desiredRightFrontSpeed - turn;
 
-        double fac1 = max(abs(leftBackSpeed), abs(rightBackSpeed));
-        double fac2 = max(abs(leftFrontSpeed), abs(rightFrontSpeed));
+
+
+        double leftBackError = desiredLeftBackSpeed - actualLeftBackVel;
+        double rightFrontError = desiredRightFrontSpeed - actualRightFrontVel;
+        double leftFrontError = desiredLeftFrontSpeed - actualLeftFrontVel;
+        double rightBackError = desiredRightBackSpeed - actualRightBackVel;
+
+        double kP = -0.1;
+
+        double leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
+        double leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
+        double rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
+        double rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
+
+        double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
+        double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
         double speedScalingFactor = max(fac1, fac2);
 
-        if (turn < 0) {
-            leftBack.setPower(leftBackSpeed + turn);
-            leftFront.setPower(leftFrontSpeed + turn);
-            rightBack.setPower(leftBackSpeed - turn);
-            rightFront.setPower(rightFrontSpeed - turn);
-            if (leftBackSpeed + turn < -1 || leftFrontSpeed + turn < -1) {
-                leftBack.setPower((leftBackSpeed + turn) / speedScalingFactor);
-                leftFront.setPower((leftFrontSpeed + turn) / speedScalingFactor);
-                rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
-                rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
-            }
-            if (rightBackSpeed + turn > 1 || rightFrontSpeed + turn > 1) {
-                leftBack.setPower((leftBackSpeed + turn) / speedScalingFactor);
-                leftFront.setPower((leftFrontSpeed + turn) / speedScalingFactor);
-                rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
-                rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
-            }
-        } else if (turn > 0) {
-            rightBack.setPower(rightBackSpeed - turn);
-            rightFront.setPower(rightFrontSpeed - turn);
-            leftBack.setPower(leftBackSpeed + turn);
-            leftFront.setPower(leftFrontSpeed + turn);
-            if (leftBackSpeed + turn < -1 || leftFrontSpeed + turn < -1) {
-                leftBack.setPower((leftBackSpeed + turn) / speedScalingFactor);
-                leftFront.setPower((leftFrontSpeed + turn) / speedScalingFactor);
-                rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
-                rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
-            }
-            if (rightBackSpeed + turn > 1 || rightFrontSpeed + turn > 1) {
-                leftBack.setPower((leftBackSpeed + turn) / speedScalingFactor);
-                leftFront.setPower((leftFrontSpeed + turn) / speedScalingFactor);
-                rightBack.setPower((rightBackSpeed + turn) / speedScalingFactor);
-                rightFront.setPower((rightFrontSpeed + turn) / speedScalingFactor);
-            }
-        } else {
-            leftFront.setPower(0);
-            rightFront.setPower(0);
-            leftBack.setPower(0);
-            rightBack.setPower(0);
+        if (speedScalingFactor > 1) {
+            leftBackOutput /= speedScalingFactor;
+            leftFrontOutput /= speedScalingFactor;
+            rightBackOutput /= speedScalingFactor;
+            rightFrontOutput /= speedScalingFactor;
         }
-        telemetry.addData ("Left Front Power: ", leftFrontSpeed);
-        telemetry.addData ("Left Back Power: ", leftBackSpeed);
-        telemetry.addData ("Right Front Power: ", rightFrontSpeed);
-        telemetry.addData ("Right Back Power: ", rightBackSpeed);
+
+        leftBack.setPower(leftBackOutput);
+        rightBack.setPower(rightBackOutput);
+        leftFront.setPower(leftFrontOutput);
+        rightFront.setPower(rightFrontOutput);
+
         lastTime = currentTime;
-        BLlastPosition = leftBack.getCurrentPosition();
-        FRlastPosition = rightFront.getCurrentPosition();
-        FLlastPosition = leftFront.getCurrentPosition();
-        BRlastPosition = rightBack.getCurrentPosition();
+        BLlastPosition = leftBackCurPos;
+        FRlastPosition = rightFrontCurPos;
+        FLlastPosition = leftFrontCurPos;
+        BRlastPosition = rightBackCurPos;
     }
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
         if (instance == null) {
