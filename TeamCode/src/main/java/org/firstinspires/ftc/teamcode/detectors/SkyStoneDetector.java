@@ -25,7 +25,6 @@ public class SkyStoneDetector extends DogeCVDetector {
         this.telemtry = telemetry;
     }
 
-
     @Override
     public Mat process(Mat input) {
         pipeline.process(input.clone());
@@ -60,7 +59,8 @@ public class SkyStoneDetector extends DogeCVDetector {
             Imgproc.circle(processed, new Point(pointx, pointy),5, new Scalar (255, 0, 0));
         }
         rectangle /= 2;
-        return processed;
+        //return processed;
+        return pipeline.hsvThresholdOutput();
     }
 
     @Override

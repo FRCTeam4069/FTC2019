@@ -30,9 +30,9 @@ public class SkyStonePipeline {
     private Mat blurOutput = new Mat();
     private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 
-    static {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    }
+//    static {
+//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//    }
 
     /**
      * This is the primary method that runs the entire pipeline and updates the outputs.

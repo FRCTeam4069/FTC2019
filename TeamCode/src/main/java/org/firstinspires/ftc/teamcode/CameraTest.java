@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
 
-@TeleOp(name = "Camera Test")
+@Autonomous(name = "Camera Test")
 public class CameraTest extends OpMode {
 
     SkyStoneDetector detector;
@@ -27,12 +27,10 @@ public class CameraTest extends OpMode {
                 DogeCV.CameraMode.WEBCAM, false, webcam);
 
         detector.enable();
-
     }
 
     @Override
     public void loop() {
-
 
     }
 }
