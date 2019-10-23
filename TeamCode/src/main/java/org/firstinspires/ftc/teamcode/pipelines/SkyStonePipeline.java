@@ -40,7 +40,7 @@ public class SkyStonePipeline {
 	public void process(Mat source0) {
         // Step HSV_Threshold0:
         Mat hsvThresholdInput = source0;
-        double[] hsvThresholdHue = {11.33093525179856, 41.77474402730375};
+        double[] hsvThresholdHue = {75, 105};
         double[] hsvThresholdSaturation = {155.93525179856115, 255.0};
         double[] hsvThresholdValue = {0.0, 255.0};
         hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
