@@ -39,24 +39,10 @@ public class SkyStoneDetector extends DogeCVDetector {
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
-            if (boundingRect.height < 200 && counter < 2) {
-                rectangle += boundingRect.x;
-                counter++;
-            }
-
-            Point point1 = boundingRect.tl();
-            Point point2 = boundingRect.br();
-
-            double point1x = point1.x;
-            double point1y = point1.y;
-            double point2x = point2.x;
-            double point2y = point2.y;
-
-            double pointx = (point1x + point2x)/2;
-            double pointy = (point1y + point2y)/2;
+            double left = boundingRect.tl().x;
+            double right  = boundingRect.br().x;
 
             Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
-            Imgproc.circle(processed, new Point(pointx, pointy),5, new Scalar (255, 0, 0));
         }
         rectangle /= 2;
         //return processed;
