@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -18,12 +23,15 @@ public class Drivetrain {
     private DcMotor leftBack;
     private DcMotor rightBack;
     Telemetry telemetry;
+    BNO055IMU imu;
 
+    // PID state variables
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
     private double FRlastPosition = -1.0;
     private double FLlastPosition = -1.0;
     private double BRlastPosition = -1.0;
+    double lastAngle = Double.NaN;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -33,7 +41,21 @@ public class Drivetrain {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        BNO055IMU.Parameters params = new BNO055IMU.Parameters();
+        params.mode = BNO055IMU.SensorMode.IMU;
+        params.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        params.loggingEnabled = false;
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(params);
         this.telemetry = telemetry;
+    }
+
+    public double getAngle() {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        return orientation.firstAngle;
     }
 
     /**
@@ -62,6 +84,15 @@ public class Drivetrain {
         }
         else  {
             timeElapsed = 0;
+        }
+
+        double angle = getAngle();
+        double deltaAngle;
+
+        if(Double.isNaN(lastAngle)) {
+            deltaAngle = 0.0;
+        }else {
+            deltaAngle = angle - lastAngle;
         }
 
         double setVelocity = 1.0;
