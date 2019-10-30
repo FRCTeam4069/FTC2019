@@ -10,10 +10,9 @@ import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
+    import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,32 +32,28 @@ public class SkyStoneDetector extends DogeCVDetector {
         ArrayList<MatOfPoint> contours = pipeline.findContoursOutput();
         Mat processed = input.clone();
 
-        int rectangle = 0;
-        int counter = 0;
+        double leftMin = 100000;
+        double rightMin = 0;
 
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
-            if (boundingRect.height < 200 && counter < 2) {
-                rectangle += boundingRect.x;
-                counter++;
+            double left = boundingRect.tl().x;
+            double right  = boundingRect.br().x;
+            if (left < leftMin) {
+             leftMin = left;
+            }
+            if (right > rightMin) {
+                rightMin = right;
             }
 
-            Point point1 = boundingRect.tl();
-            Point point2 = boundingRect.br();
+            double position = (leftMin + rightMin) / 2;
 
-            double point1x = point1.x;
-            double point1y = point1.y;
-            double point2x = point2.x;
-            double point2y = point2.y;
-
-            double pointx = (point1x + point2x)/2;
-            double pointy = (point1y + point2y)/2;
+            telemtry.addData ("position", position);
 
             Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
-            Imgproc.circle(processed, new Point(pointx, pointy),5, new Scalar (255, 0, 0));
         }
-        rectangle /= 2;
+
         //return processed;
         return pipeline.hsvThresholdOutput();
     }
