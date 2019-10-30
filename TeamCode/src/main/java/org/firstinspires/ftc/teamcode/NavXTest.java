@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,29 +11,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp
-public class IMUTest extends OpMode {
-    BNO055IMU imu;
+public class NavXTest extends OpMode {
+    public NavxMicroNavigationSensor navx;
 
     @Override
     public void init() {
-        BNO055IMU.Parameters params = new BNO055IMU.Parameters();
-        params.mode = BNO055IMU.SensorMode.IMU;
-        params.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        params.loggingEnabled = false;
+        NavxMicroNavigationSensor.Parameters params = new NavxMicroNavigationSensor.Parameters();
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(params);
+        navx = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
+        navx.initialize(params);
     }
 
-    @Override
-    public void start() {
-        while(!imu.isGyroCalibrated()) {}
-    }
 
     @Override
     public void loop() {
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation orientation = navx.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double yaw = orientation.firstAngle;
 
         telemetry.addData("Yaw", yaw);

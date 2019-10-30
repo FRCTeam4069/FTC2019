@@ -1,17 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
 public class Drivetrain {
+    public static final double ANGULAR_VELOCITY_M = 9.068;
+    public static final double ANGULAR_VELOCITY_B = -1.405;
+
     private static Drivetrain instance;
 
     private DcMotor leftFront;
@@ -19,12 +26,14 @@ public class Drivetrain {
     private DcMotor leftBack;
     private DcMotor rightBack;
     Telemetry telemetry;
+    NavxMicroNavigationSensor navx;
 
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
     private double FRlastPosition = -1.0;
     private double FLlastPosition = -1.0;
     private double BRlastPosition = -1.0;
+    double lastAngle = Double.NaN;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -35,6 +44,13 @@ public class Drivetrain {
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         this.telemetry = telemetry;
+        navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
+    }
+
+    public double getAngle() {
+        Orientation orientation = navx.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        return orientation.firstAngle;
     }
 
     /**
