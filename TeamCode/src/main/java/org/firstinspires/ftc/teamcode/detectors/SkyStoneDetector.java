@@ -19,6 +19,7 @@ import java.util.List;
 public class SkyStoneDetector extends DogeCVDetector {
     SkyStonePipeline pipeline = new SkyStonePipeline();
     Telemetry telemtry;
+    public double position = 0;
 
     public SkyStoneDetector(Telemetry telemetry) {
         this.telemtry = telemetry;
@@ -32,27 +33,32 @@ public class SkyStoneDetector extends DogeCVDetector {
         ArrayList<MatOfPoint> contours = pipeline.findContoursOutput();
         Mat processed = input.clone();
 
-        double leftMin = 100000;
-        double rightMin = 0;
+        double leftMin = 1000000;
+        double rightMax = 0;
 
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
-            double left = boundingRect.tl().x;
-            double right  = boundingRect.br().x;
+            double left = boundingRect.tl().y;
+            double right  = boundingRect.br().y;
             if (left < leftMin) {
              leftMin = left;
             }
-            if (right > rightMin) {
-                rightMin = right;
+            if (right > rightMax) {
+                rightMax = right;
             }
-
-            double position = (leftMin + rightMin) / 2;
-
-            telemtry.addData ("position", position);
 
             Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
         }
+
+        position = (leftMin + rightMax) / 2;
+
+        telemtry.addData ("position", position);
+        telemtry.addData ("left min", leftMin);
+        telemtry.addData ("right max", rightMax);
+        telemtry.addData ("num contours", contours.size());
+
+
 
         //return processed;
         return pipeline.hsvThresholdOutput();
