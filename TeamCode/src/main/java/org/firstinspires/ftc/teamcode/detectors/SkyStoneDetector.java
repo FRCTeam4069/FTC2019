@@ -39,8 +39,8 @@ public class SkyStoneDetector extends DogeCVDetector {
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
-            double left = boundingRect.tl().y;
-            double right  = boundingRect.br().y;
+            double left = boundingRect.tl().x;
+            double right  = boundingRect.br().x;
             if (left < leftMin) {
              leftMin = left;
             }

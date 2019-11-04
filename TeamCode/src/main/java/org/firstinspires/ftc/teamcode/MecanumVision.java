@@ -39,7 +39,7 @@ public class MecanumVision extends OpMode {
             drivetrain.drive(0, 0 , 0);
         }
         else {
-            drivetrain.drive(0.3, 0, 0);
+            drivetrain.drive(0.75, 0, 0);
         }
         telemetry.addData("Position", detector.position);
         //drivetrain.drive (gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
