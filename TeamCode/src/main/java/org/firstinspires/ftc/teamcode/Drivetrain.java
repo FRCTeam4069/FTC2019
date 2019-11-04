@@ -18,6 +18,7 @@ import static java.lang.Math.max;
 public class Drivetrain {
     public static final double ANGULAR_VELOCITY_M = 9.068;
     public static final double ANGULAR_VELOCITY_B = -1.405;
+    //x = turn value
 
     private static Drivetrain instance;
 
