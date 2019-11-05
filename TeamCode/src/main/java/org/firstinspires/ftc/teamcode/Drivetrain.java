@@ -35,6 +35,10 @@ public class Drivetrain {
     private double FLlastPosition = -1.0;
     private double BRlastPosition = -1.0;
     double lastAngle = Double.NaN;
+    public double leftBackOutput;
+    public double leftFrontOutput;
+    public double rightBackOutput;
+    public double rightFrontOutput;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -63,7 +67,7 @@ public class Drivetrain {
      */
     public void drive(double strafe, double forward, double turn) {
 
-        double direction = Math.atan2(strafe, forward);
+        double direction = Math.atan2(forward, strafe);
         double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
         double rightFrontCurPos = ((double)rightFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
         double leftFrontCurPos = ((double)leftFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
@@ -109,10 +113,10 @@ public class Drivetrain {
 
         double kP = -0.1;
 
-        double leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
-        double leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
-        double rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
-        double rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
+        leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
+        leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
+        rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
+        rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
 
         double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
         double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));

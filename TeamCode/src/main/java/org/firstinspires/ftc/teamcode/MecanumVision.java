@@ -35,13 +35,18 @@ public class MecanumVision extends OpMode {
 
     @Override
     public void loop() {
+        drivetrain.drive (0.5, 0, 0);
         if (detector.position > 300) {
             drivetrain.drive(0, 0 , 0);
         }
         else {
-            drivetrain.drive(0.75, 0, 0);
+            drivetrain.drive(0.5, 0, 0);
         }
         telemetry.addData("Position", detector.position);
-        //drivetrain.drive (gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
+
+        telemetry.addData ("left front motor output: ", drivetrain.leftFrontOutput);
+        telemetry.addData ("left back motor output: ", drivetrain.leftBackOutput);
+        telemetry.addData ("right front motor output: ", drivetrain.rightFrontOutput);
+        telemetry.addData ("right back motor output: ", drivetrain.rightBackOutput);
     }
 }
