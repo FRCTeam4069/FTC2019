@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class AngularCharacterization extends OpMode {
     Drivetrain drivetrain;
 
-    double turn = 1;
+    double turn = 0.5;
 
     double cumulativeAngle;
     double numSamples;
@@ -30,7 +30,7 @@ public class AngularCharacterization extends OpMode {
 
         double w = drivetrain.navx.getAngularVelocity(AngleUnit.RADIANS).zRotationRate;
         if(w < 0) {
-            w -= 2 * Math.PI;
+            w -= 1 * Math.PI;
         }
         cumulativeAngle += w;
         numSamples += 1;
