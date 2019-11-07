@@ -27,7 +27,7 @@ public class Drivetrain {
     private DcMotor leftBack;
     private DcMotor rightBack;
     Telemetry telemetry;
-    NavxMicroNavigationSensor navx;
+    public NavxMicroNavigationSensor navx;
 
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
@@ -52,6 +52,11 @@ public class Drivetrain {
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
     }
 
+    /**
+     * Gets the angle of the robot.
+     *
+     * @return The yaw of the robot
+     */
     public double getAngle() {
         Orientation orientation = navx.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -118,6 +123,22 @@ public class Drivetrain {
         rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
         rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
 
+
+
+        //TODO: Untested code
+        double expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
+        double turnSpeed = navx.getAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+
+        double error = expectedTurnSpeed - turnSpeed;
+
+        double turnP = 0.1;
+        double output = error * turnP;
+
+        leftBackOutput += output;
+        rightBackOutput -= output;
+        leftFrontOutput += output;
+        rightFrontOutput -= output;
+
         double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
         double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
         double speedScalingFactor = max(fac1, fac2);
@@ -140,6 +161,7 @@ public class Drivetrain {
         FLlastPosition = leftFrontCurPos;
         BRlastPosition = rightBackCurPos;
     }
+
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
         if (instance == null) {
             instance = new Drivetrain(hardwareMap, telemetry);
