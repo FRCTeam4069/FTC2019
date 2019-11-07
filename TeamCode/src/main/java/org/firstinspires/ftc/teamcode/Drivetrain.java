@@ -19,9 +19,7 @@ public class Drivetrain {
     public static final double ANGULAR_VELOCITY_M = 9.068;
     public static final double ANGULAR_VELOCITY_B = -1.405;
     //x = turn value
-
-    private static Drivetrain instance;
-
+    
     private DcMotor leftFront;
     private DcMotor rightFront;
     private DcMotor leftBack;
@@ -163,11 +161,7 @@ public class Drivetrain {
     }
 
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
-        if (instance == null) {
-            instance = new Drivetrain(hardwareMap, telemetry);
-        }
-
-        return instance;
+        return new Drivetrain(hardwareMap, telemetry);
     }
 
 }

@@ -29,16 +29,15 @@ public class MecanumVision extends OpMode {
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
-
-        detector.enable();
+                detector.enable();
 
         drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
     }
 
     @Override
     public void loop() {
-        drivetrain.drive (0.5, 0, 0);
-        if (detector.position > 300) {
+       // drivetrain.drive (0.5, 0, 0);
+        if (detector.position > 300 && detector.position < 400000) {
             drivetrain.drive(0, 0 , 0);
         }
         else {
