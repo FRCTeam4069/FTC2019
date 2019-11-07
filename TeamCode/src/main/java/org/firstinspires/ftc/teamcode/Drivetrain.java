@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -26,6 +27,7 @@ public class Drivetrain {
     private DcMotor rightBack;
     Telemetry telemetry;
     public NavxMicroNavigationSensor navx;
+    private BNO055IMU imu;
 
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
@@ -37,6 +39,7 @@ public class Drivetrain {
     public double leftFrontOutput;
     public double rightBackOutput;
     public double rightFrontOutput;
+    private double lastError = Double.NaN;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -48,6 +51,12 @@ public class Drivetrain {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         this.telemetry = telemetry;
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters params = new BNO055IMU.Parameters();
+        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        params.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(params);
     }
 
     /**
@@ -124,13 +133,34 @@ public class Drivetrain {
 
 
         //TODO: Untested code
-        double expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
-        double turnSpeed = navx.getAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        double expectedTurnSpeed;
+
+        if(turn == 0.0) {
+            expectedTurnSpeed = 0.0;
+        } else {
+            expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
+        }
+
+        double turnSpeed = imu.getAngularVelocity().xRotationRate;
 
         double error = expectedTurnSpeed - turnSpeed;
+        double derivative;
+        if (Double.isNaN(lastError)) {
+            derivative = 0;
+        } else {
+            derivative = (error - lastError) / timeElapsed;
+        }
+        // derivative = (error - lastError) / deltaTime;
+        // output += kD * derivative;
 
-        double turnP = 0.1;
-        double output = error * turnP;
+
+        double turnP = 0.2;
+        double turnD = -0;
+        double output = error * turnP + turnD * derivative;
+
+        telemetry.addData("error", error);
+        telemetry.addData("expected turn speed", expectedTurnSpeed);
+        telemetry.addData("turn speed", turnSpeed);
 
         leftBackOutput += output;
         rightBackOutput -= output;
