@@ -27,7 +27,6 @@ public class Drivetrain {
     private DcMotor rightBack;
     Telemetry telemetry;
     public NavxMicroNavigationSensor navx;
-    private BNO055IMU imu;
 
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
@@ -51,12 +50,6 @@ public class Drivetrain {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         this.telemetry = telemetry;
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters params = new BNO055IMU.Parameters();
-        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        params.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(params);
     }
 
     /**
@@ -141,7 +134,8 @@ public class Drivetrain {
             expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
         }
 
-        double turnSpeed = imu.getAngularVelocity().xRotationRate;
+        // FTC API turbobade :ha:
+        double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 
         double error = expectedTurnSpeed - turnSpeed;
         double derivative;
