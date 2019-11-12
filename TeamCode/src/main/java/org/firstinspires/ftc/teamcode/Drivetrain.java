@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -25,7 +26,7 @@ public class Drivetrain {
     private DcMotor leftBack;
     private DcMotor rightBack;
     Telemetry telemetry;
-    NavxMicroNavigationSensor navx;
+    public NavxMicroNavigationSensor navx;
 
     private double lastTime = -1.0;
     private double BLlastPosition = -1.0;
@@ -37,6 +38,7 @@ public class Drivetrain {
     public double leftFrontOutput;
     public double rightBackOutput;
     public double rightFrontOutput;
+    private double lastError = Double.NaN;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -50,6 +52,11 @@ public class Drivetrain {
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
     }
 
+    /**
+     * Gets the angle of the robot.
+     *
+     * @return The yaw of the robot
+     */
     public double getAngle() {
         Orientation orientation = navx.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -116,6 +123,44 @@ public class Drivetrain {
         rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
         rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
 
+
+
+        //TODO: Untested code
+        double expectedTurnSpeed;
+
+        if(turn == 0.0) {
+            expectedTurnSpeed = 0.0;
+        } else {
+            expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
+        }
+
+        // FTC API turbobade :ha:
+        double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+
+        double error = expectedTurnSpeed - turnSpeed;
+        double derivative;
+        if (Double.isNaN(lastError)) {
+            derivative = 0;
+        } else {
+            derivative = (error - lastError) / timeElapsed;
+        }
+        // derivative = (error - lastError) / deltaTime;
+        // output += kD * derivative;
+
+
+        double turnP = 0.2;
+        double turnD = -0;
+        double output = error * turnP + turnD * derivative;
+
+        telemetry.addData("error", error);
+        telemetry.addData("expected turn speed", expectedTurnSpeed);
+        telemetry.addData("turn speed", turnSpeed);
+
+        leftBackOutput += output;
+        rightBackOutput -= output;
+        leftFrontOutput += output;
+        rightFrontOutput -= output;
+
         double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
         double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
         double speedScalingFactor = max(fac1, fac2);
@@ -138,6 +183,7 @@ public class Drivetrain {
         FLlastPosition = leftFrontCurPos;
         BRlastPosition = rightBackCurPos;
     }
+
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
         return new Drivetrain(hardwareMap, telemetry);
     }
