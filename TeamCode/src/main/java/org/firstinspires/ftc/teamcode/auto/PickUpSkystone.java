@@ -1,24 +1,32 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
+
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.commands.Scheduler;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
-@Autonomous
-public class BasicAuto extends OpMode {
+@Autonomous(name = "PickUpSkystone")
+public class PickUpSkystone extends OpMode {
 
-    private Drivetrain drivetrain;
-    private SkyStoneDetector detector;
+    SkyStoneDetector detector;
+
     private WebcamName webcam;
-    @Override
-    public void init () {
-        drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+    private Drivetrain drivetrain;
+    private Telemetry telemetry;
+    private Scheduler scheduler;
 
+
+    @Override
+    public void init() {
         detector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
 
@@ -27,15 +35,15 @@ public class BasicAuto extends OpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
         detector.enable();
+
+        drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+
+        scheduler = new Scheduler(drivetrain, detector, telemetry);
     }
+
     @Override
     public void loop() {
-        if (detector.position > 300 && detector.position < 400000) {
-            drivetrain.drive(0, 0 , 0);
+        // drivetrain.drive (0.5, 0, 0);
 
-        }
-        else {
-            drivetrain.drive(0.5, -0.05, 0);
-        }
     }
 }
