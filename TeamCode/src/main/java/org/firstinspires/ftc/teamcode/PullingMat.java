@@ -30,12 +30,19 @@ public class PullingMat extends LinearOpMode{
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
+
+        double startTime = System.currentTimeMillis();
 
         while (opModeIsActive()) {
             int leftFrontPos = leftFront.getCurrentPosition();
@@ -50,20 +57,23 @@ public class PullingMat extends LinearOpMode{
             double reversedError = originalSetpoint - averageMotorPosition;
             double kP = 0.01;
             double currentTime = System.currentTimeMillis();
+            double timeElapsed = currentTime - startTime;
 
-            leftFront.setPower(kP * error);
-            rightFront.setPower(kP * error);
-            leftBack.setPower(kP * error);
-            rightBack.setPower(kP * error);
+            if (timeElapsed <5000) {
+                leftFront.setPower(kP * error);
+                rightFront.setPower(kP * error);
+                leftBack.setPower(kP * error);
+                rightBack.setPower(kP * error);
+            }
 
-            if (currentTime >= 20000) {
+            if (timeElapsed >= 5000) {
                 leftFront.setPower(kP * reversedError);
                 rightFront.setPower(kP * reversedError);
                 leftBack.setPower(kP * reversedError);
                 rightBack.setPower(kP * reversedError);
             }
 
-            if (currentTime >= 40000) {
+            if (timeElapsed >= 40000) {
                 leftFront.setPower(kP * error);
                 rightFront.setPower(kP * reversedError);
                 leftBack.setPower(kP * error);
