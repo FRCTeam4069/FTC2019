@@ -39,6 +39,10 @@ public class Drivetrain {
     public double rightBackOutput;
     public double rightFrontOutput;
     private double lastError = Double.NaN;
+    public double leftBackWheelPosition;
+    public double rightBackWheelPosition;
+    public double leftFrontWheelPosition;
+    public double rightFrontWheelPosition;
 
     private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -50,6 +54,10 @@ public class Drivetrain {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         this.telemetry = telemetry;
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
+        leftBackWheelPosition = leftBack.getCurrentPosition();
+        rightBackWheelPosition = rightBack.getCurrentPosition();
+        leftFrontWheelPosition = leftFront.getCurrentPosition();
+        rightFrontWheelPosition = rightFront.getCurrentPosition();
     }
 
     /**
