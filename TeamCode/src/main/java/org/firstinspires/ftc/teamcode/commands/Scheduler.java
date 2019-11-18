@@ -21,7 +21,7 @@ public class Scheduler {
     }
 
     public void add(Command command) {
-        command.setSubsystems(drivetrain, detector);
+        command.setSubsystems(drivetrain, detector, telemetry);
         commandQueue.add(command);
     }
 
