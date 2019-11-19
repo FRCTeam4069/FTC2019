@@ -48,7 +48,7 @@ public class SkyStonePipeline {
         // Step Blur0:
         Mat blurInput = hsvThresholdOutput;
         BlurType blurType = BlurType.get("Median Filter");
-        double blurRadius = 18.91891891891892;
+        double blurRadius = 18;
         blur(blurInput, blurType, blurRadius, blurOutput);
 
         // Step Find_Contours0:

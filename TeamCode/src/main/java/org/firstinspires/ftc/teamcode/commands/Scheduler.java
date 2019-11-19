@@ -18,6 +18,7 @@ public class Scheduler {
         this.drivetrain = drivetrain;
         this.detector = detector;
         this.telemetry = telemetry;
+        this.commandQueue = new ArrayList<>();
     }
 
     public void add(Command command) {
