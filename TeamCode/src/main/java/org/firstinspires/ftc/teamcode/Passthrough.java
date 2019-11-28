@@ -11,21 +11,25 @@ public class Passthrough {
     private CRServo PTRight;
     Telemetry telemetry;
 
-    private Passthrough(HardwareMap hardwareMap, Telemetry telemetry) {
+    public Passthrough(HardwareMap hardwareMap, Telemetry telemetry) {
         PTLeft = hardwareMap.get(CRServo.class, "PTLeft");
         PTRight = hardwareMap.get(CRServo.class, "PTRight");
         this.telemetry = telemetry;
     }
 
 
-    public void Passthrough(boolean forward, boolean reverse) {
-        if (forward == true) {
+    public void run(boolean forward, boolean reverse) {
+        if (forward) {
             PTLeft.setPower(1);
             PTRight.setPower(1);
         }
-        else if (reverse == true) {
+        else if (reverse) {
             PTLeft.setPower(-1);
             PTRight.setPower(-1);
+        }
+        else {
+            PTLeft.setPower(0);
+            PTRight.setPower(0);
         }
     }
 }

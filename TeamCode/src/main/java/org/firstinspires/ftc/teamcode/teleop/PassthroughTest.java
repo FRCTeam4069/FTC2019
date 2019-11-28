@@ -13,10 +13,12 @@ public class PassthroughTest extends OpMode {
 
     @Override
     public void init() {
-        
+       passthrough = new Passthrough(hardwareMap, telemetry);
     }
+
     public void loop() {
 
-    }
 
+        passthrough.run (gamepad1.y, gamepad1.a);
+    }
 }
