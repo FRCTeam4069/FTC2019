@@ -44,7 +44,7 @@ public class Drivetrain {
     public double leftFrontWheelPosition;
     public double rightFrontWheelPosition;
 
-    private Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
+    public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -136,41 +136,41 @@ public class Drivetrain {
         //TODO: Untested code
         double expectedTurnSpeed;
 
-        if(turn == 0.0) {
-            expectedTurnSpeed = 0.0;
-        } else {
-            expectedTurnSpeed = -1.0;
+//          if(turn == 0.0) {
+//            expectedTurnSpeed = 0.0;
+//        } else {
+//            expectedTurnSpeed = -1.0;
 //            expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
-        }
-
-        // FTC API turbobade :ha:
-        double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
-
-        double error = expectedTurnSpeed - turnSpeed;
-        double derivative;
-        if (Double.isNaN(lastError)) {
-            derivative = 0;
-        } else {
-            derivative = (error - lastError) / timeElapsed;
-        }
+//        }
+//
+//         FTC API turbobade :ha:
+//        double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+//
+//        double error = expectedTurnSpeed - turnSpeed;
+//        double derivative;
+//        if (Double.isNaN(lastError)) {
+//            derivative = 0;
+//        } else {
+//            derivative = (error - lastError) / timeElapsed;
+//        }
         // derivative = (error - lastError) / deltaTime;
         // output += kD * derivative;
 
 
-        double turnP = 0.35;
-        double turnD = -0.5;
-        double output = error * turnP + turnD * derivative;
-
-        telemetry.addData("error", error);
-        telemetry.addData("expected turn speed", expectedTurnSpeed);
-        telemetry.addData("turn speed", turnSpeed);
-
-        if(expectedTurnSpeed != -1.0) {
-            leftBackOutput += output;
-            rightBackOutput -= output;
-            leftFrontOutput += output;
-            rightFrontOutput -= output;
-        }
+//        double turnP = 0.35;
+//        double turnD = -0.5;
+//        double output = error * turnP + turnD * derivative;
+//
+//        telemetry.addData("error", error);
+//        telemetry.addData("expected turn speed", expectedTurnSpeed);
+//        telemetry.addData("turn speed", turnSpeed);
+//
+//        if(expectedTurnSpeed != -1.0) {
+//            leftBackOutput += output;
+//            rightBackOutput -= output;
+//            leftFrontOutput += output;
+//            rightFrontOutput -= output;
+//        }
 
         double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
         double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
