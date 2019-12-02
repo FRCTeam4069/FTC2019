@@ -21,11 +21,11 @@ public class Passthrough {
     public void run(boolean forward, boolean reverse) {
         if (forward) {
             PTLeft.setPower(1);
-            PTRight.setPower(1);
+            PTRight.setPower(-1);
         }
         else if (reverse) {
             PTLeft.setPower(-1);
-            PTRight.setPower(-1);
+            PTRight.setPower(1);
         }
         else {
             PTLeft.setPower(0);
