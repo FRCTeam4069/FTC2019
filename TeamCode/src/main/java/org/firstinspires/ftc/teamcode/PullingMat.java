@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.drm.DrmStore;
+
+import com.acmerobotics.roadrunner.profile.MotionSegment;
+import com.acmerobotics.roadrunner.profile.MotionState;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,8 +28,12 @@ public class PullingMat extends LinearOpMode{
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
+        telemetry.addData("Left Front", leftFront.getCurrentPosition());
+        telemetry.addData("Right Front", rightFront.getCurrentPosition());
+        telemetry.addData("Left Back", leftBack.getCurrentPosition());
+        telemetry.addData("Right Back ", rightBack.getCurrentPosition());
 
-        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+       leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -40,11 +48,23 @@ public class PullingMat extends LinearOpMode{
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         waitForStart();
 
         double startTime = System.currentTimeMillis();
 
         while (opModeIsActive()) {
+
+            telemetry.addData("Left Front", leftFront.getCurrentPosition());
+            telemetry.addData("Right Front", rightFront.getCurrentPosition());
+            telemetry.addData("Left Back", leftBack.getCurrentPosition());
+            telemetry.addData("Right Back ", rightBack.getCurrentPosition());
+
             int leftFrontPos = leftFront.getCurrentPosition();
             int rightFrontPos = rightFront.getCurrentPosition();
             int leftBackPos = leftBack.getCurrentPosition();
@@ -59,7 +79,19 @@ public class PullingMat extends LinearOpMode{
             double currentTime = System.currentTimeMillis();
             double timeElapsed = currentTime - startTime;
 
-            if (timeElapsed <5000) {
+            leftFront.setTargetPosition(600);
+            leftBack.setTargetPosition(600);
+            rightFront.setTargetPosition(600);
+            rightBack.setTargetPosition(600);
+
+            leftFront.setPower(kP * reversedError);
+            rightFront.setPower(kP * reversedError);
+            leftBack.setPower(kP * reversedError);
+            rightBack.setPower(kP * reversedError);
+
+
+            /*
+            if (timeElapsed <500) {
                 leftFront.setPower(kP * error);
                 rightFront.setPower(kP * error);
                 leftBack.setPower(kP * error);
@@ -73,18 +105,18 @@ public class PullingMat extends LinearOpMode{
                 rightBack.setPower(kP * reversedError);
             }
 
-            if (timeElapsed >= 40000) {
+            if (timeElapsed >= 15000) {
                 leftFront.setPower(kP * error);
                 rightFront.setPower(kP * reversedError);
-                leftBack.setPower(kP * error);
-                rightBack.setPower(kP * reversedError);
+                leftBack.setPower(kP * reversedError);
+                rightBack.setPower(kP * error);
             }
 
 
 
 
-
-
+            */
+            telemetry.update();
         }
     }
 }

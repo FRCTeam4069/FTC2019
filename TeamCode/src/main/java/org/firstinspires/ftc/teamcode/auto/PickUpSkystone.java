@@ -43,7 +43,7 @@ public class PickUpSkystone extends OpMode {
 
     @Override
     public void loop() {
-        // drivetrain.drive (0.5, 0, 0);
+        // drivetrain.update (0.5, 0, 0);
 
     }
 }

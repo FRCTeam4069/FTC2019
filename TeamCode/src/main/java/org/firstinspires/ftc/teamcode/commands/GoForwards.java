@@ -1,10 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.Drivetrain;
-
 public class GoForwards extends Command {
 
     private double speed;
@@ -29,10 +24,10 @@ public class GoForwards extends Command {
     double kP = 0.01;
     error = (leftFrontError + leftBackError + rightFrontError + rightBackError) / 4;
     if (error > 2000) {
-        drivetrain.drive (0, 1, 0);
+        drivetrain.update(0, 1, 0);
     }
     else {
-        drivetrain.drive (0, error * kP, 0);
+        drivetrain.update(0, error * kP, 0);
     }
     }
 

@@ -78,7 +78,7 @@ public class Drivetrain {
      * @param strafe The component of motion in the lateral direction
      * @param turn
      */
-    public void drive(double strafe, double forward, double turn) {
+    public void update(double strafe, double forward, double turn) {
 
         double direction = Math.atan2(forward, strafe);
         double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
