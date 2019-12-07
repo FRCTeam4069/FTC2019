@@ -45,9 +45,6 @@ public class MecanumVision extends OpMode {
         }
         telemetry.addData("Position", detector.position);
 
-        telemetry.addData ("left front motor output: ", drivetrain.leftFrontOutput);
-        telemetry.addData ("left back motor output: ", drivetrain.leftBackOutput);
-        telemetry.addData ("right front motor output: ", drivetrain.rightFrontOutput);
-        telemetry.addData ("right back motor output: ", drivetrain.rightBackOutput);
+//
     }
 }

@@ -19,9 +19,9 @@ public class MecanumTest extends OpMode {
     @Override
     public void loop() {
         drivetrain.update(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-        telemetry.addData ("left front motor output: ", drivetrain.leftFrontOutput);
-        telemetry.addData ("left back motor output: ", drivetrain.leftBackOutput);
-        telemetry.addData ("right front motor output: ", drivetrain.rightFrontOutput);
-        telemetry.addData ("right back motor output: ", drivetrain.rightBackOutput);
+//        telemetry.addData ("left front motor output: ", drivetrain.leftFrontOutput);
+//        telemetry.addData ("left back motor output: ", drivetrain.leftBackOutput);
+//        telemetry.addData ("right front motor output: ", drivetrain.rightFrontOutput);
+//        telemetry.addData ("right back motor output: ", drivetrain.rightBackOutput);
     }
 }
