@@ -153,7 +153,7 @@ public class Drivetrain {
         }
 
 
-        double turnP = -0.1;
+        double turnP = -0.3;
         double turnD = 0;
         double output = error * turnP + turnD * derivative;
 
