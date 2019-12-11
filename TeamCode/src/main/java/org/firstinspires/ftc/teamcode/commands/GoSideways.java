@@ -24,6 +24,6 @@ public class GoSideways extends Command {
 
     @Override
     public boolean isFinished() {
-        return detector.position > 300 && detector.position < 400000;
+        return detector.position < 350 && detector.position != 500000;
     }
 }
