@@ -16,11 +16,12 @@ public class Scheduler {
     private Telemetry telemetry;
     private Passthrough passthrough;
 
-    public Scheduler(Drivetrain drivetrain, SkyStoneDetector detector, Telemetry telemetry) {
+    public Scheduler(Drivetrain drivetrain, SkyStoneDetector detector, Telemetry telemetry, Passthrough passthrough) {
         this.drivetrain = drivetrain;
         this.detector = detector;
         this.telemetry = telemetry;
         this.commandQueue = new ArrayList<>();
+        this.passthrough = passthrough;
     }
 
     public void add(Command command) {

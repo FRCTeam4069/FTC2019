@@ -27,7 +27,6 @@ public class PickUpSkystone extends OpMode {
     SkyStoneDetector detector;
 
     private WebcamName webcam;
-    private Drivetrain drivetrain;
     private Scheduler scheduler;
 
 
@@ -36,7 +35,7 @@ public class PickUpSkystone extends OpMode {
         detector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
         GoSideways goSideways = new GoSideways(0.5);
-        GoForwards goForward = new GoForwards(0.5, 2000);
+        GoForwards goForward = new GoForwards(-0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
         PassthroughOff passthroughOff = new PassthroughOff();
 
@@ -46,9 +45,10 @@ public class PickUpSkystone extends OpMode {
                 DogeCV.CameraMode.WEBCAM, false, webcam);
         detector.enable();
 
-        drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+        Drivetrain drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+        Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
 
-        scheduler = new Scheduler(drivetrain, detector, telemetry);
+        scheduler = new Scheduler(drivetrain, detector, telemetry, passthrough);
         scheduler.add(goSideways);
         scheduler.add(passthroughOn);
         scheduler.add(goForward);
