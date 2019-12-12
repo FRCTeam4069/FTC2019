@@ -34,13 +34,11 @@ public class PickUpSkystone extends OpMode {
     @Override
     public void init() {
         detector = new SkyStoneDetector(telemetry);
-        drivetrain = new Drivetrain(hardwareMap, telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
         GoSideways goSideways = new GoSideways(0.5);
         GoForwards goForward = new GoForwards(0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
         PassthroughOff passthroughOff = new PassthroughOff();
-        ParallelCommand parallelCommand = new ParallelCommand(goForward, passthroughOn);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
@@ -52,7 +50,8 @@ public class PickUpSkystone extends OpMode {
 
         scheduler = new Scheduler(drivetrain, detector, telemetry);
         scheduler.add(goSideways);
-        scheduler.add(parallelCommand);
+        scheduler.add(passthroughOn);
+        scheduler.add(goForward);
         scheduler.add(passthroughOff);
     }
 

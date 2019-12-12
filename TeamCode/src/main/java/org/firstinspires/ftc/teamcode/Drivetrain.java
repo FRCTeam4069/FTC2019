@@ -35,10 +35,11 @@ public class Drivetrain {
     private double BRlastPosition = -1.0;
     double lastAngle = Double.NaN;
     private double lastError = Double.NaN;
-    public double leftBackWheelPosition;
-    public double rightBackWheelPosition;
-    public double leftFrontWheelPosition;
-    public double rightFrontWheelPosition;
+    private double leftBackWheelPosition;
+    private double rightBackWheelPosition;
+    private double leftFrontWheelPosition;
+    private double rightFrontWheelPosition;
+    private static Drivetrain instance;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -177,7 +178,10 @@ public class Drivetrain {
     }
 
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
-        return new Drivetrain(hardwareMap, telemetry);
+        if (instance == null) {
+            instance = new Drivetrain(hardwareMap, telemetry);
+        }
+        return instance;
     }
 
 }
