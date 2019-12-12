@@ -7,11 +7,9 @@ public class PassthroughOn extends Command {
     }
 
         void start(){
-            passthrough.update(false, false);
-        }
-        void loop(){
             passthrough.update(true, false);
         }
+        void loop() {}
         boolean isFinished() {
             return true;
         }
