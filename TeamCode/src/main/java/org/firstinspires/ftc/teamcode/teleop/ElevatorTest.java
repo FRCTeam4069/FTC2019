@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Passthrough;
+import org.firstinspires.ftc.teamcode.Elevator;
 
 @TeleOp(name = "ElevatorTest")
 public class ElevatorTest extends OpMode {
@@ -19,6 +19,6 @@ public class ElevatorTest extends OpMode {
     public void loop() {
 
 
-        elevator.update(gamepad1.x, gamepad1.b);
+        elevator.update(gamepad1.x, gamepad1.b, gamepad1.right_stick_y);
     }
 }
