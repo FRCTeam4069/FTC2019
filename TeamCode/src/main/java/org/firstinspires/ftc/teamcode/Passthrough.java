@@ -18,7 +18,7 @@ public class Passthrough {
     }
 
 
-    public void run(boolean forward, boolean reverse) {
+    public void update(boolean forward, boolean reverse) {
         if (forward) {
             PTLeft.setPower(1);
             PTRight.setPower(-1);

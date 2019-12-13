@@ -15,7 +15,7 @@ public class GoSideways extends Command {
     @Override
     public void loop() {
 
-        drivetrain.drive(speed, 0, 0);
+        drivetrain.update(speed, 0, 0);
 
         telemetry.addData("Position", detector.position);
 
@@ -24,6 +24,6 @@ public class GoSideways extends Command {
 
     @Override
     public boolean isFinished() {
-        return detector.position > 300 && detector.position < 400000;
+        return detector.position < 350 && detector.position != 500000;
     }
 }

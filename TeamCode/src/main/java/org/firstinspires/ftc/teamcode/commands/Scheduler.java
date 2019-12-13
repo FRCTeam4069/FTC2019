@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Scheduler {
     private Drivetrain drivetrain;
     private SkyStoneDetector detector;
     private Telemetry telemetry;
+    private Passthrough passthrough;
 
     public Scheduler(Drivetrain drivetrain, SkyStoneDetector detector, Telemetry telemetry) {
         this.drivetrain = drivetrain;
@@ -22,7 +24,7 @@ public class Scheduler {
     }
 
     public void add(Command command) {
-        command.setSubsystems(drivetrain, detector, telemetry);
+        command.setSubsystems(drivetrain, detector, telemetry, passthrough);
         commandQueue.add(command);
     }
 
@@ -31,7 +33,9 @@ public class Scheduler {
         firstCommand.loop();
         if (firstCommand.isFinished()) {
             commandQueue.remove(0);
-            commandQueue.get(0).loop();
+            if (!commandQueue.isEmpty()) {
+                commandQueue.get(0).loop();
+            }
         }
     }
 

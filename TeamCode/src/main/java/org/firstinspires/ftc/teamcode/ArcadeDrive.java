@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "simple teleop drive")
+@TeleOp(name = "simple teleop update")
 public class ArcadeDrive extends OpMode {
     DcMotor leftDrive;
     DcMotor rightDrive;

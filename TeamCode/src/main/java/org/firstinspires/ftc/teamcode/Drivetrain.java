@@ -34,15 +34,12 @@ public class Drivetrain {
     private double FLlastPosition = -1.0;
     private double BRlastPosition = -1.0;
     double lastAngle = Double.NaN;
-    public double leftBackOutput;
-    public double leftFrontOutput;
-    public double rightBackOutput;
-    public double rightFrontOutput;
     private double lastError = Double.NaN;
-    public double leftBackWheelPosition;
-    public double rightBackWheelPosition;
-    public double leftFrontWheelPosition;
-    public double rightFrontWheelPosition;
+    private double leftBackWheelPosition;
+    private double rightBackWheelPosition;
+    private double leftFrontWheelPosition;
+    private double rightFrontWheelPosition;
+    private static Drivetrain instance;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -78,7 +75,7 @@ public class Drivetrain {
      * @param strafe The component of motion in the lateral direction
      * @param turn
      */
-    public void drive(double strafe, double forward, double turn) {
+    public void update(double strafe, double forward, double turn) {
 
         double direction = Math.atan2(forward, strafe);
         double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
@@ -112,36 +109,8 @@ public class Drivetrain {
         double desiredLeftFrontSpeed = Math.sin(direction + Math.PI / 4) * speed;
         double desiredRightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
 
-        desiredLeftBackSpeed = desiredLeftBackSpeed + turn;
-        desiredLeftFrontSpeed = desiredLeftFrontSpeed + turn;
-        desiredRightBackSpeed = desiredRightBackSpeed - turn;
-        desiredRightFrontSpeed = desiredRightFrontSpeed - turn;
+        double expectedTurnSpeed = turn * 10;
 
-
-
-        double leftBackError = desiredLeftBackSpeed - actualLeftBackVel;
-        double rightFrontError = desiredRightFrontSpeed - actualRightFrontVel;
-        double leftFrontError = desiredLeftFrontSpeed - actualLeftFrontVel;
-        double rightBackError = desiredRightBackSpeed - actualRightBackVel;
-
-        double kP = -0.1;
-
-        leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
-        leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
-        rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
-        rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
-
-
-
-        //TODO: Untested code
-        double expectedTurnSpeed = 0;
-
-//          if(turn == 0.0) {
-//            expectedTurnSpeed = 0.0;
-//        } else {
-//            expectedTurnSpeed = -1.0;
-//            expectedTurnSpeed = ANGULAR_VELOCITY_M * turn + ANGULAR_VELOCITY_B;
-//        }
         double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 
         double error = expectedTurnSpeed - turnSpeed;
@@ -153,20 +122,36 @@ public class Drivetrain {
         }
 
 
+        telemetry.addData("error", error);
+        telemetry.addData("derivative", derivative);
+
         double turnP = -0.3;
         double turnD = 0;
         double output = error * turnP + turnD * derivative;
 
-        telemetry.addData("error", error);
         telemetry.addData("expected turn speed", expectedTurnSpeed);
         telemetry.addData("turn speed", turnSpeed);
 
-        if(expectedTurnSpeed != -1.0) {
-            leftBackOutput += output;
-            rightBackOutput -= output;
-            leftFrontOutput += output;
-            rightFrontOutput -= output;
-        }
+
+        desiredLeftBackSpeed = desiredLeftBackSpeed + output;
+        desiredLeftFrontSpeed = desiredLeftFrontSpeed + output;
+        desiredRightBackSpeed = desiredRightBackSpeed - output;
+        desiredRightFrontSpeed = desiredRightFrontSpeed - output;
+
+
+
+        double leftBackError = desiredLeftBackSpeed - actualLeftBackVel;
+        double rightFrontError = desiredRightFrontSpeed - actualRightFrontVel;
+        double leftFrontError = desiredLeftFrontSpeed - actualLeftFrontVel;
+        double rightBackError = desiredRightBackSpeed - actualRightBackVel;
+
+        double kP = -0.1;
+
+        double leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
+        double leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
+        double rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
+        double rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
+
 
         double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
         double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
@@ -185,6 +170,7 @@ public class Drivetrain {
         rightFront.setPower(rightFrontOutput);
 
         lastTime = currentTime;
+        lastError = error;
         BLlastPosition = leftBackCurPos;
         FRlastPosition = rightFrontCurPos;
         FLlastPosition = leftFrontCurPos;
@@ -192,7 +178,10 @@ public class Drivetrain {
     }
 
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {
-        return new Drivetrain(hardwareMap, telemetry);
+        if (instance == null) {
+            instance = new Drivetrain(hardwareMap, telemetry);
+        }
+        return instance;
     }
 
 }

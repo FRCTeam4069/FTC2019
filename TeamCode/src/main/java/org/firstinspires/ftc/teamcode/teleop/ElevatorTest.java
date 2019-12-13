@@ -6,19 +6,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Passthrough;
 
-@TeleOp(name = "PassthroughTest")
-public class PassthroughTest extends OpMode {
+@TeleOp(name = "ElevatorTest")
+public class ElevatorTest extends OpMode {
 
-    private Passthrough passthrough;
+    private Elevator elevator;
 
     @Override
     public void init() {
-       passthrough = new Passthrough(hardwareMap, telemetry);
+        elevator = new Elevator(hardwareMap, telemetry);
     }
 
     public void loop() {
 
 
-        passthrough.update(gamepad1.y, gamepad1.a);
+        elevator.update(gamepad1.x, gamepad1.b);
     }
 }
