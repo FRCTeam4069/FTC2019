@@ -7,10 +7,12 @@ public class PassthroughOn extends Command {
     }
 
         void start(){
-            passthrough.update(true, false);
         }
-        void loop() {}
+        void loop() {
+            passthrough.update(true, false);
+            telemetry.addData("running passthrough", true);
+        }
         boolean isFinished() {
-            return true;
+            return false;
         }
     }

@@ -24,6 +24,7 @@ public class BasicAuto extends OpMode {
     @Override
     public void init () {
         drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+        Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
 
         detector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
@@ -33,7 +34,7 @@ public class BasicAuto extends OpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
         detector.enable();
-        scheduler = new Scheduler(drivetrain, detector, telemetry);
+        scheduler = new Scheduler(drivetrain, detector, telemetry, passthrough);
         scheduler.add(goSideways);
         scheduler.add(goForwards);
     }
