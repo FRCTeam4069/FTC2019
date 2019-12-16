@@ -14,9 +14,10 @@ public class ElevatorTest extends OpMode {
     @Override
     public void init() {
         elevator = new Elevator(hardwareMap, telemetry);
+        elevator.setMode(Elevator.ElevatorMode.GREEN_SENSOR);
     }
 
     public void loop() {
-
+        elevator.update();
     }
 }

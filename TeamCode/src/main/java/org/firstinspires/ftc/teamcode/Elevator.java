@@ -33,11 +33,11 @@ public class Elevator {
 
         this.telemetry = telemetry;
 
-        colorSensor = hardwareMap.colorSensor.get("greenColor");
+        colorSensor = hardwareMap.colorSensor.get("greenColour");
 
     }
 
-    private enum ElevatorMode {
+    public enum ElevatorMode {
         LIMIT_SWITCH,
         GREEN_SENSOR,
         MANUAL_DOWN,
