@@ -96,8 +96,6 @@ public class Drivetrain {
             timeElapsed = 0;
         }
 
-        double setVelocity = 1.0;
-
         double actualLeftBackVel = leftBackChange / timeElapsed;
         double actualRightFrontVel = rightFrontChange / timeElapsed;
         double actualLeftFrontVel = leftFrontChange / timeElapsed;

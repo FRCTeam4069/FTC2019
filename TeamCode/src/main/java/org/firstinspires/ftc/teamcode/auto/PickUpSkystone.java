@@ -38,6 +38,7 @@ public class PickUpSkystone extends OpMode {
         GoForwards goForward = new GoForwards(-0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
         PassthroughOff passthroughOff = new PassthroughOff();
+        ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
@@ -50,9 +51,7 @@ public class PickUpSkystone extends OpMode {
 
         scheduler = new Scheduler(drivetrain, detector, telemetry, passthrough);
         scheduler.add(goSideways);
-        scheduler.add(passthroughOn);
-        scheduler.add(goForward);
-        scheduler.add(passthroughOff);
+        scheduler.add(parallelCommand);
     }
 
     @Override
