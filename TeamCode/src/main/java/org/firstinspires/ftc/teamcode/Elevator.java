@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileBuilder;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
+import android.media.audiofx.DynamicsProcessing;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -20,16 +21,20 @@ public class Elevator {
 //    private CRServo Wrench;
     private CRServo servo;
     private ColorSensor colorSensor;
+    private DigitalChannel limitSwitch;
     Telemetry telemetry;
 
     public Elevator(HardwareMap hardwareMap, Telemetry telemetry) {
 //        Clamp = hardwareMap.get(CRServo.class, "Clamp");
 //        Wrench = hardwareMap.get(CRServo.class, "Wrench");
         servo = hardwareMap.get(CRServo.class, "Elevator");
+        limitSwitch = hardwareMap.get(DigitalChannel.class, "elevatorLimit");
+
 
         this.telemetry = telemetry;
 
-        colorSensor = hardwareMap.colorSensor.get("color");
+        colorSensor = hardwareMap.colorSensor.get("greenColor");
+
     }
 
     private enum ElevatorMode {
@@ -53,7 +58,9 @@ public class Elevator {
 
         if (mode == ElevatorMode.LIMIT_SWITCH) {
             power = -0.5;
-            // CODE TO CHECK LIMIT SWITCH
+            if (limitSwitch.getState()) {
+                mode = ElevatorMode.STOP;
+            }
         } else if (mode == ElevatorMode.GREEN_SENSOR) {
             power = 0.5;
             if (colorSensor.green() > 128) {

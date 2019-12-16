@@ -18,7 +18,5 @@ public class ElevatorTest extends OpMode {
 
     public void loop() {
 
-
-        elevator.update(gamepad1.x, gamepad1.b, gamepad1.right_stick_y);
     }
 }
