@@ -56,15 +56,17 @@ public class Elevator {
 
         double power;
 
+        telemetry.addData("Green Sensor",colorSensor.green());
+        telemetry.addData("Limit Switch State", limitSwitch.getState());
         if (mode == ElevatorMode.LIMIT_SWITCH) {
             power = -0.5;
-            if (limitSwitch.getState()) {
+            if (limitSwitch.getState() == false) {
                 mode = ElevatorMode.STOP;
             }
         } else if (mode == ElevatorMode.GREEN_SENSOR) {
             power = 0.5;
-            if (colorSensor.green() > 128) {
-                mode = ElevatorMode.STOP;
+            if (colorSensor.green() > 50) {
+                mode = ElevatorMode.LIMIT_SWITCH;
             }
         } else if (mode == ElevatorMode.MANUAL_UP) {
             power = 0.5;
