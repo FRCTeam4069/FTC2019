@@ -21,7 +21,7 @@ public class MasterTeleOp extends OpMode {
     }
 
     @Override public void loop() {
-        drivetrain.update(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        drivetrain.update(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x * 0.7);
         passthrough.update(gamepad1.a, gamepad1.y);
     }
 }
