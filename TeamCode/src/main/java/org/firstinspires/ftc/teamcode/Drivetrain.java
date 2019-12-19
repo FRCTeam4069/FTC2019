@@ -47,8 +47,8 @@ public class Drivetrain {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         this.telemetry = telemetry;
         navx = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
         leftBackWheelPosition = leftBack.getCurrentPosition();
