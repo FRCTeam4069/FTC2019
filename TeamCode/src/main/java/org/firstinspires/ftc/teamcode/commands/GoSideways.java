@@ -15,7 +15,7 @@ public class GoSideways extends Command {
     @Override
     public void loop() {
 
-        drivetrain.update(speed, 0, 0);
+        drivetrain.update(speed, 0, 0, false, false);
 
         telemetry.addData("Position", detector.position);
 

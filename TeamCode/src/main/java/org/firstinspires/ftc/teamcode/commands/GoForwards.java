@@ -15,7 +15,7 @@ public class GoForwards extends Command {
 
     @Override
     public void loop() {
-        drivetrain.update(0, speed, 0);
+        drivetrain.update(0, speed, 0, false, false);
     }
 
     public boolean isFinished() {

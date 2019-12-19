@@ -38,10 +38,10 @@ public class MecanumVision extends OpMode {
     public void loop() {
        // drivetrain.update (0.5, 0, 0);
         if (detector.position > 300 && detector.position < 400000) {
-            drivetrain.update(0, 0 , 0);
+            drivetrain.update(0, 0 , 0, gamepad1.x, gamepad1.b);
         }
         else {
-            drivetrain.update(0.5, 0, 0);
+            drivetrain.update(0.5, 0, 0, gamepad1.x, gamepad1.b);
         }
         telemetry.addData("Position", detector.position);
 

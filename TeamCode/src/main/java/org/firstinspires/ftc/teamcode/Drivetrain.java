@@ -75,7 +75,7 @@ public class Drivetrain {
      * @param strafe The component of motion in the lateral direction
      * @param turn
      */
-    public void update(double strafe, double forward, double turn) {
+    public void update(double strafe, double forward, double turn, boolean x, boolean b) {
 
         double direction = Math.atan2(forward, strafe);
         double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
@@ -109,6 +109,13 @@ public class Drivetrain {
 
         double expectedTurnSpeed = turn * 10;
 
+        if (x) {
+            expectedTurnSpeed += 3;
+        }
+        else if (b) {
+            expectedTurnSpeed -= 3;
+        }
+
         double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 
         double error = expectedTurnSpeed - turnSpeed;
@@ -123,7 +130,7 @@ public class Drivetrain {
         telemetry.addData("error", error);
         telemetry.addData("derivative", derivative);
 
-        double turnP = -0.3;
+        double turnP = 0.1;
         double turnD = 0;
         double output = error * turnP + turnD * derivative;
 

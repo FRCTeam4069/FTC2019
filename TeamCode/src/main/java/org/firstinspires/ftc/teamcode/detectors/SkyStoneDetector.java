@@ -1,21 +1,23 @@
 package org.firstinspires.ftc.teamcode.detectors;
 
+
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
+import org.firstinspires.ftc.teamcode.pipelines.StonePipeline;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class SkyStoneDetector extends DogeCVDetector {
-
+    SkyStonePipeline pipeline = new SkyStonePipeline();
     Telemetry telemetry;
-    SkyStonePipeline skyStonePipeline = new SkyStonePipeline();
-    public double position;
+    public double position = 0;
 
     public SkyStoneDetector(Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -23,12 +25,11 @@ public class SkyStoneDetector extends DogeCVDetector {
 
     @Override
     public Mat process(Mat input) {
-        skyStonePipeline.process(input.clone());
-        telemetry.addData("Number of contours", skyStonePipeline.findContoursOutput().size());
-        telemetry.addData("Number of filtered contours", skyStonePipeline.filterContoursOutput());
+        pipeline.process(input.clone());
+        telemetry.addData("Number of contours", pipeline.findContoursOutput().size());
 
-        ArrayList<MatOfPoint> contours = skyStonePipeline.filterContoursOutput();
-        Mat processed = skyStonePipeline.blurOutput().clone();
+        ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
+        Mat processed = pipeline.blurOutput().clone();
 
         double leftMin = 1000000;
         double rightMax = 0;
@@ -37,26 +38,34 @@ public class SkyStoneDetector extends DogeCVDetector {
             MatOfPoint contour = contours.get(i);
             Rect boundingRect = Imgproc.boundingRect(contour);
             double left = boundingRect.tl().y;
-            double right = boundingRect.br().y;
+            double right  = boundingRect.br().y;
             if (left < leftMin) {
                 leftMin = left;
             }
             if (right > rightMax) {
                 rightMax = right;
-
             }
 
+
+
+            Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
         }
         position = (leftMin + rightMax) / 2;
 
         telemetry.addData ("position", position);
         telemetry.addData ("left min", leftMin);
         telemetry.addData ("right max", rightMax);
-        return (processed);
+        telemetry.addData ("num contours", contours.size());
+
+        //return processed;
+        return pipeline.hsvThresholdOutput();
     }
 
     @Override
     public void useDefaults() {
+    }
 
+    public List<MatOfPoint> getCountours() {
+        return pipeline.findContoursOutput();
     }
 }

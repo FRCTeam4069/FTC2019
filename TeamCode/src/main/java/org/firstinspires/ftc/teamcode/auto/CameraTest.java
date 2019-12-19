@@ -13,13 +13,13 @@ import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 @Autonomous(name = "Camera Test")
 public class CameraTest extends OpMode {
 
-    NormalStoneDetector detector;
+    SkyStoneDetector detector;
 
     private WebcamName webcam;
 
     @Override
     public void init() {
-        detector = new NormalStoneDetector(telemetry);
+        detector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");

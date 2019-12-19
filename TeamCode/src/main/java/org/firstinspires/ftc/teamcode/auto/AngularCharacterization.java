@@ -27,7 +27,7 @@ public class AngularCharacterization extends OpMode {
 
     @Override
     public void loop() {
-        drivetrain.update(0, 0, turn);
+        drivetrain.update(0, 0, turn, false, false);
 
         double w = drivetrain.navx.getAngularVelocity(AngleUnit.RADIANS).zRotationRate;
         if(w < 0) {
