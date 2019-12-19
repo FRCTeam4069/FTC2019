@@ -3,12 +3,9 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Drivetrain;
@@ -19,12 +16,12 @@ import org.firstinspires.ftc.teamcode.commands.ParallelCommand;
 import org.firstinspires.ftc.teamcode.commands.PassthroughOff;
 import org.firstinspires.ftc.teamcode.commands.PassthroughOn;
 import org.firstinspires.ftc.teamcode.commands.Scheduler;
-import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 
 @Autonomous(name = "PickUpSkystone")
 public class PickUpSkystone extends OpMode {
 
-    SkyStoneDetector detector;
+    NormalStoneDetector detector;
 
     private WebcamName webcam;
     private Scheduler scheduler;
@@ -32,7 +29,7 @@ public class PickUpSkystone extends OpMode {
 
     @Override
     public void init() {
-        detector = new SkyStoneDetector(telemetry);
+        detector = new NormalStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
         GoSideways goSideways = new GoSideways(0.5);
         GoForwards goForward = new GoForwards(-0.5, 2000);

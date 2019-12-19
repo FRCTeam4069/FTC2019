@@ -9,12 +9,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Drivetrain;
-import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 
 @TeleOp(name = "MecanumVision")
 public class MecanumVision extends OpMode {
 
-    SkyStoneDetector detector;
+    NormalStoneDetector detector;
 
     private WebcamName webcam;
 
@@ -22,7 +22,7 @@ public class MecanumVision extends OpMode {
 
     @Override
     public void init() {
-        detector = new SkyStoneDetector(telemetry);
+        detector = new NormalStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");

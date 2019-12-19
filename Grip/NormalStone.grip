@@ -10,19 +10,19 @@
       <grip:Input step="0" socket="1">
         <value>
           <double>0.0</double>
-          <double>42.54266211604096</double>
+          <double>180.0</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="2">
         <value>
-          <double>121.53776978417265</double>
-          <double>255.0</double>
+          <double>0.0</double>
+          <double>91.81740614334471</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="3">
         <value>
-          <double>26.37140287769784</double>
-          <double>207.13310580204777</double>
+          <double>0.0</double>
+          <double>196.2542662116041</double>
         </value>
       </grip:Input>
       <grip:Output step="0" socket="0" previewed="true"/>
@@ -37,40 +37,40 @@
     <grip:Step name="Filter Contours">
       <grip:Input step="2" socket="0"/>
       <grip:Input step="2" socket="1">
-        <value>10.0</value>
+        <value>3.0</value>
       </grip:Input>
       <grip:Input step="2" socket="2">
-        <value>0.0</value>
+        <value>300.0</value>
       </grip:Input>
       <grip:Input step="2" socket="3">
-        <value>15.0</value>
+        <value>520.0</value>
       </grip:Input>
       <grip:Input step="2" socket="4">
         <value>1000.0</value>
       </grip:Input>
       <grip:Input step="2" socket="5">
-        <value>15.0</value>
+        <value>350.0</value>
       </grip:Input>
       <grip:Input step="2" socket="6">
         <value>1000.0</value>
       </grip:Input>
       <grip:Input step="2" socket="7">
         <value>
-          <double>0.0</double>
-          <double>100.0</double>
+          <int>0</int>
+          <int>100</int>
         </value>
       </grip:Input>
       <grip:Input step="2" socket="8">
-        <value>1000000.0</value>
+        <value>1000000</value>
       </grip:Input>
       <grip:Input step="2" socket="9">
-        <value>0.0</value>
+        <value>200.0</value>
       </grip:Input>
       <grip:Input step="2" socket="10">
-        <value>0.0</value>
+        <value>1.0</value>
       </grip:Input>
       <grip:Input step="2" socket="11">
-        <value>1000.0</value>
+        <value>1000</value>
       </grip:Input>
       <grip:Output step="2" socket="0" previewed="true"/>
     </grip:Step>
@@ -100,10 +100,10 @@
   </settings>
   <codeGenerationSettings>
     <language>Java</language>
-    <className>NormalStonePipeline</className>
+    <className>GripPipeline</className>
     <implementWpilibPipeline>false</implementWpilibPipeline>
-    <saveDir>C:\Users\exion\FTC2019\TeamCode\src\main\java\org\firstinspires\ftc\teamcode</saveDir>
-    <packageName>org.firstinspires.ftc.teamcode</packageName>
+    <saveDir>C:\Users\exion\GRIP</saveDir>
+    <packageName></packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>
 </grip:Pipeline>

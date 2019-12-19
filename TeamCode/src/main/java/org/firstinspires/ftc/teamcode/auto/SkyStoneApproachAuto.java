@@ -7,12 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
-import org.firstinspires.ftc.teamcode.pipelines.SkyStonePipeline;
+import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.List;
@@ -20,13 +18,13 @@ import java.util.List;
 @Autonomous(name = "SkyStoneApproachAuto")
 public class SkyStoneApproachAuto extends OpMode {
 
-    SkyStoneDetector detector;
+    NormalStoneDetector detector;
     private WebcamName webcam;
 
     @Override
     public void init () {
 
-        detector = new SkyStoneDetector(telemetry);
+        detector = new NormalStoneDetector(telemetry);
         telemetry.addData ("detector", "intialized");
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;

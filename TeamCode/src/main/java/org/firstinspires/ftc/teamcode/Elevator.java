@@ -15,8 +15,6 @@ import org.firstinspires.ftc.robotcore.internal.android.dx.dex.file.ValueEncoder
 import org.firstinspires.ftc.teamcode.Passthrough;
 
 public class Elevator {
-
-
 //    private CRServo Clamp;
 //    private CRServo Wrench;
     private CRServo servo;
@@ -77,10 +75,3 @@ public class Elevator {
         servo.setPower(power);
     }
 }
-
-
-
-
-
-
-
