@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode.pipelines;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
-
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
@@ -23,7 +23,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class SkyStonePipeline implements VisionPipeline {
+public class SkyStonePipeline {
 
 	//Outputs
 	private Mat hsvThresholdOutput = new Mat();
@@ -38,7 +38,7 @@ public class SkyStonePipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = source0;
 		double[] hsvThresholdHue = {0.0, 180.0};

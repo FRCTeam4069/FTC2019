@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 @Autonomous(name = "Camera Test")
 public class CameraTest extends OpMode {
