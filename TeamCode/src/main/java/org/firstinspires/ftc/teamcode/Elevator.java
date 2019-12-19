@@ -40,40 +40,48 @@ public class Elevator {
     public enum ElevatorMode {
         LIMIT_SWITCH,
         GREEN_SENSOR,
-        MANUAL_DOWN,
-        MANUAL_UP,
+        MANUAL_CONTROL,
         STOP
-
     }
 
     private ElevatorMode mode = ElevatorMode.STOP;
+    private double manualDemand = 0;
 
     public void setMode(ElevatorMode mode) {
+        this.setMode(mode, 0);
+    }
+
+    public void setMode(ElevatorMode mode, double demand) {
         this.mode = mode;
+        this.manualDemand = demand;
     }
 
     public void update() {
 
-        double power;
+
+        double power = 0.0;
 
         telemetry.addData("Green Sensor",colorSensor.green());
         telemetry.addData("Limit Switch State", limitSwitch.getState());
-        if (mode == ElevatorMode.LIMIT_SWITCH) {
-            power = -0.5;
-            if (limitSwitch.getState() == false) {
-                mode = ElevatorMode.STOP;
-            }
-        } else if (mode == ElevatorMode.GREEN_SENSOR) {
-            power = 0.5;
-            if (colorSensor.green() > 50) {
-                mode = ElevatorMode.LIMIT_SWITCH;
-            }
-        } else if (mode == ElevatorMode.MANUAL_UP) {
-            power = 0.5;
-        } else if (mode == ElevatorMode.MANUAL_DOWN) {
-            power = -0.5;
-        } else {
-            power = 0;
+        switch (mode) {
+            case LIMIT_SWITCH:
+                power = -0.5;
+                if (!limitSwitch.getState()) {
+                    mode = ElevatorMode.STOP;
+                }
+                break;
+            case GREEN_SENSOR:
+                power = 0.5;
+                if (colorSensor.green() > 50) {
+                    mode = ElevatorMode.LIMIT_SWITCH;
+                }
+                break;
+            case MANUAL_CONTROL:
+                power = manualDemand;
+                break;
+            case STOP:
+                power = 0;
+                break;
         }
 
         servo.setPower(power);
