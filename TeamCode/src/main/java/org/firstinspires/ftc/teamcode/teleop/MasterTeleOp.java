@@ -14,7 +14,8 @@ public class MasterTeleOp extends OpMode {
     Drivetrain drivetrain;
     Passthrough passthrough;
     Elevator elevator;
-    private Servo servo;
+    private Servo lowerClamp;
+    private Servo upperClamp;
     private double position = 0.5;
 
     @Override
@@ -22,7 +23,8 @@ public class MasterTeleOp extends OpMode {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         passthrough = new Passthrough(hardwareMap, telemetry);
         elevator = new Elevator(hardwareMap, telemetry);
-        servo = hardwareMap.get(Servo.class, "finalSolution");
+        lowerClamp = hardwareMap.get(Servo.class, "lowerClamp");
+        upperClamp = hardwareMap.get(Servo.class, "upperClamp");
     }
 
     @Override public void loop() {
@@ -36,6 +38,7 @@ public class MasterTeleOp extends OpMode {
         else if (gamepad1.right_bumper) {
             position -= 0.05;
         }
-        servo.setPosition(position);
+        lowerClamp.setPosition(position);
+        upperClamp.setPosition(position);
     }
 }
