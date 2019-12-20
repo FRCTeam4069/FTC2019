@@ -15,28 +15,38 @@ public class MasterTeleOp extends OpMode {
     Drivetrain drivetrain;
     Passthrough passthrough;
     Elevator elevator;
-    private CRServo clamp;
+    private Servo clamp;
+    private CRServo tilt;
+    double speed;
 
     @Override
     public void init() {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         passthrough = new Passthrough(hardwareMap, telemetry);
         elevator = new Elevator(hardwareMap, telemetry);
-        clamp = hardwareMap.get(CRServo.class, "clamp");
+        clamp = hardwareMap.get(Servo.class, "clamp");
+        tilt = hardwareMap.get(CRServo.class, "tilt");
+        clamp.setPosition(0.5);
+        speed = 0.5;
     }
 
     @Override public void loop() {
         drivetrain.update(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.x, gamepad1.b);
         passthrough.update(gamepad1.a, gamepad1.y);
-        elevator.setMode(Elevator.ElevatorMode.MANUAL_CONTROL, gamepad1.right_stick_y);
+        elevator.setMode(Elevator.ElevatorMode.MANUAL_CONTROL, -gamepad1.right_stick_y);
         elevator.update();
-        double speed = 0;
         if (gamepad1.left_bumper) {
-            speed += 0.5;
+            speed += 0.05;
         }
         else if (gamepad1.right_bumper) {
-            speed -= 0.5;
+            speed -= 0.05;
         }
-        clamp.setPower(speed);
+        clamp.setPosition(speed);
+        if (gamepad1.dpad_right) {
+            tilt.setPower(0.5);
+        }
+        if (gamepad1.dpad_left) {
+            tilt.setPower(-0.5);
+        }
     }
 }

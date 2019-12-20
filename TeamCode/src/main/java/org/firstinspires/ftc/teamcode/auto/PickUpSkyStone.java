@@ -17,11 +17,12 @@ import org.firstinspires.ftc.teamcode.commands.PassthroughOff;
 import org.firstinspires.ftc.teamcode.commands.PassthroughOn;
 import org.firstinspires.ftc.teamcode.commands.Scheduler;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
-@Autonomous(name = "PickUpSkystone")
-public class PickUpSkystone extends OpMode {
+@Autonomous(name = "PickUpStone")
+public class PickUpSkyStone extends OpMode {
 
-    NormalStoneDetector detector;
+    SkyStoneDetector skyStoneDetector;
 
     private WebcamName webcam;
     private Scheduler scheduler;
@@ -29,7 +30,7 @@ public class PickUpSkystone extends OpMode {
 
     @Override
     public void init() {
-        detector = new NormalStoneDetector(telemetry);
+        skyStoneDetector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
         GoSideways goSideways = new GoSideways(0.5);
         GoForwards goForward = new GoForwards(-0.5, 2000);
@@ -38,15 +39,15 @@ public class PickUpSkystone extends OpMode {
         ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
-        detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
-        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
+        skyStoneDetector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
+        skyStoneDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
-        detector.enable();
+        skyStoneDetector.enable();
 
         Drivetrain drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
         Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
 
-        scheduler = new Scheduler(drivetrain, detector, telemetry, passthrough);
+        scheduler = new Scheduler(drivetrain, null, skyStoneDetector, telemetry, passthrough);
         scheduler.add(goSideways);
         scheduler.add(parallelCommand);
     }

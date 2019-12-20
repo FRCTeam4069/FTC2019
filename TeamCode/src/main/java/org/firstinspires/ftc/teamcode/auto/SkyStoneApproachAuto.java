@@ -25,7 +25,7 @@ public class SkyStoneApproachAuto extends OpMode {
     public void init () {
 
         detector = new NormalStoneDetector(telemetry);
-        telemetry.addData ("detector", "intialized");
+        telemetry.addData ("normalStoneDetector", "intialized");
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),

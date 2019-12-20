@@ -17,13 +17,13 @@ public class GoSideways extends Command {
 
         drivetrain.update(speed, 0, 0, false, false);
 
-        telemetry.addData("Position", detector.position);
+        telemetry.addData("Position", normalStoneDetector.position);
 
 
     }
 
     @Override
     public boolean isFinished() {
-        return detector.position < 320 && detector.position != 500000;
+        return normalStoneDetector.position < 320 && normalStoneDetector.position != 500000;
     }
 }

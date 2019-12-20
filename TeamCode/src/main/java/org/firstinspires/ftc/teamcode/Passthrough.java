@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -10,12 +11,14 @@ public class Passthrough {
     private CRServo PTLeft;
     private CRServo PTRight;
     private CRServo tilt;
+    private Servo clamp;
     Telemetry telemetry;
 
     public Passthrough(HardwareMap hardwareMap, Telemetry telemetry) {
         PTLeft = hardwareMap.get(CRServo.class, "PTLeft");
         PTRight = hardwareMap.get(CRServo.class, "PTRight");
         tilt = hardwareMap.get(CRServo.class, "tilt");
+        clamp = hardwareMap.get(Servo.class, "clamp");
         this.telemetry = telemetry;
     }
 

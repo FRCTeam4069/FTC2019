@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 import java.util.ArrayList;
 
@@ -12,20 +13,22 @@ public class Scheduler {
     private ArrayList<Command> commandQueue;
 
     private Drivetrain drivetrain;
-    private NormalStoneDetector detector;
+    private NormalStoneDetector normalStoneDetector;
     private Telemetry telemetry;
     private Passthrough passthrough;
+    private SkyStoneDetector skyStoneDetector;
 
-    public Scheduler(Drivetrain drivetrain, NormalStoneDetector detector, Telemetry telemetry, Passthrough passthrough) {
+    public Scheduler(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough) {
         this.drivetrain = drivetrain;
-        this.detector = detector;
+        this.normalStoneDetector = normalStoneDetector;
         this.telemetry = telemetry;
         this.commandQueue = new ArrayList<>();
         this.passthrough = passthrough;
+        this.skyStoneDetector = skyStoneDetector;
     }
 
     public void add(Command command) {
-        command.setSubsystems(drivetrain, detector, telemetry, passthrough);
+        command.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough);
         commandQueue.add(command);
     }
 

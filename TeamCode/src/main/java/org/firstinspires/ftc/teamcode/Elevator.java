@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.android.dx.dex.file.ValueEncoder;
@@ -21,12 +22,17 @@ public class Elevator {
     private ColorSensor colorSensor;
     private DigitalChannel limitSwitch;
     Telemetry telemetry;
+    private CRServo tilt;
+    private Servo clamp;
 
     public Elevator(HardwareMap hardwareMap, Telemetry telemetry) {
 //        Clamp = hardwareMap.get(CRServo.class, "Clamp");
 //        Wrench = hardwareMap.get(CRServo.class, "Wrench");
         servo = hardwareMap.get(CRServo.class, "Elevator");
         limitSwitch = hardwareMap.get(DigitalChannel.class, "elevatorLimit");
+        tilt = hardwareMap.get(CRServo.class, "tilt");
+        clamp = hardwareMap.get(Servo.class, "clamp");
+
 
 
         this.telemetry = telemetry;

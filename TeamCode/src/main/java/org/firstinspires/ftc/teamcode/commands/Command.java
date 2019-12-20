@@ -4,17 +4,19 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Drivetrain;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 public abstract class Command {
 
     protected Drivetrain drivetrain;
-    protected NormalStoneDetector detector;
+    protected NormalStoneDetector normalStoneDetector;
     protected Telemetry telemetry;
     protected Passthrough passthrough;
+    protected  SkyStoneDetector skyStoneDetector;
 
-    public void setSubsystems(Drivetrain drivetrain, NormalStoneDetector detector, Telemetry telemetry, Passthrough passthrough) {
+    public void setSubsystems(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough) {
         this.drivetrain = drivetrain;
-        this.detector = detector;
+        this.normalStoneDetector = normalStoneDetector;
         this.telemetry = telemetry;
         this.passthrough = passthrough;
 

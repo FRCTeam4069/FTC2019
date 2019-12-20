@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
+
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
@@ -6,39 +7,53 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.commands.GoForwards;
 import org.firstinspires.ftc.teamcode.commands.GoSideways;
+import org.firstinspires.ftc.teamcode.commands.ParallelCommand;
+import org.firstinspires.ftc.teamcode.commands.PassthroughOff;
+import org.firstinspires.ftc.teamcode.commands.PassthroughOn;
 import org.firstinspires.ftc.teamcode.commands.Scheduler;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 
-@Autonomous
-public class BasicAuto extends OpMode {
+@Autonomous(name = "PickUpStone")
+public class PickUpStone extends OpMode {
 
-    private Drivetrain drivetrain;
-    private NormalStoneDetector normalStoneDetector;
+    NormalStoneDetector normalStoneDetector;
+
     private WebcamName webcam;
     private Scheduler scheduler;
-    private GoSideways goSideways = new GoSideways(0.5);
-    private GoForwards goForwards = new GoForwards(0.75, 5000);
-    @Override
-    public void init () {
-        drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
-        Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
 
+
+    @Override
+    public void init() {
         normalStoneDetector = new NormalStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
+        GoSideways goSideways = new GoSideways(0.5);
+        GoForwards goForward = new GoForwards(-0.5, 2000);
+        PassthroughOn passthroughOn = new PassthroughOn();
+        PassthroughOff passthroughOff = new PassthroughOff();
+        ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         normalStoneDetector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
         normalStoneDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
         normalStoneDetector.enable();
+
+        Drivetrain drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
+        Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
+
         scheduler = new Scheduler(drivetrain, normalStoneDetector, null, telemetry, passthrough);
         scheduler.add(goSideways);
-        scheduler.add(goForwards);
+        scheduler.add(parallelCommand);
     }
+
     @Override
     public void loop() {
         scheduler.loop();
+
     }
 }
