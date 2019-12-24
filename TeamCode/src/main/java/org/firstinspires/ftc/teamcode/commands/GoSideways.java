@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
+import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
+
 public class GoSideways extends Command {
 
     private double speed;
+    private NormalStoneDetector normalStoneDetector;
+    private  SkyStoneDetector skyStoneDetector;
 
-    public GoSideways(double speed) {
+    //input null if not being used in desired OpMode
+    public GoSideways(double speed, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector) {
         this.speed = speed;
+        this.normalStoneDetector = normalStoneDetector;
+        this.skyStoneDetector = skyStoneDetector;
     }
 
     @Override
@@ -17,13 +25,21 @@ public class GoSideways extends Command {
 
         drivetrain.update(speed, 0, 0, false, false);
 
-        telemetry.addData("Position", normalStoneDetector.position);
-
-
+        if(normalStoneDetector != null) {
+            telemetry.addData("Position", normalStoneDetector.position);
+        }
+        if(skyStoneDetector != null) {
+            telemetry.addData("Sky Stone Position", skyStoneDetector.position);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return normalStoneDetector.position < 320 && normalStoneDetector.position != 500000;
+        if(normalStoneDetector != null) {
+            return normalStoneDetector.position < 320 && normalStoneDetector.position != 500000;
+        }
+        else {
+            return skyStoneDetector.position < 320 && skyStoneDetector.position != 500000;
+        }
     }
 }

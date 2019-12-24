@@ -26,10 +26,10 @@ public class SkyStoneDetector extends DogeCVDetector {
     @Override
     public Mat process(Mat input) {
         pipeline.process(input.clone());
-        telemetry.addData("Number of contours", pipeline.findContoursOutput().size());
+        telemetry.addData("Number of contours", pipeline.filterContoursOutput().size());
 
         ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
-        Mat processed = pipeline.blurOutput().clone();
+        Mat processed = pipeline.hsvThresholdOutput().clone();
 
         double leftMin = 1000000;
         double rightMax = 0;
@@ -58,7 +58,7 @@ public class SkyStoneDetector extends DogeCVDetector {
         telemetry.addData ("num contours", contours.size());
 
         //return processed;
-        return pipeline.hsvThresholdOutput();
+        return processed;
     }
 
     @Override

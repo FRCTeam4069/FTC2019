@@ -26,7 +26,6 @@ public class CameraTest extends OpMode {
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(),
                 DogeCV.CameraMode.WEBCAM, false, webcam);
-
         detector.enable();
     }
 

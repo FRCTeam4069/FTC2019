@@ -57,7 +57,7 @@ public class NormalStoneDetector extends DogeCVDetector {
         telemetry.addData ("num contours", contours.size());
 
         //return processed;
-        return pipeline.hsvThresholdOutput();
+        return processed;
     }
 
     @Override

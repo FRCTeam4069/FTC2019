@@ -31,7 +31,7 @@ public class PickUpStone extends OpMode {
     public void init() {
         normalStoneDetector = new NormalStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
-        GoSideways goSideways = new GoSideways(0.5);
+        GoSideways goSideways = new GoSideways(0.5, normalStoneDetector, null);
         GoForwards goForward = new GoForwards(-0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
         PassthroughOff passthroughOff = new PassthroughOff();
