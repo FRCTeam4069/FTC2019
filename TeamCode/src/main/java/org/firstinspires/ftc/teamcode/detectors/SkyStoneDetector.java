@@ -31,41 +31,21 @@ public class SkyStoneDetector extends DogeCVDetector {
         ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
         Mat processed = pipeline.hsvThresholdOutput().clone();
 
-        double leftMin = 1000000;
-        double rightMax = 0;
+        int[] areas = new int[pipeline.filterContoursOutput().size()];
+        double largestContour = 0;
 
-        for (int i = 0; i < contours.size(); i++) {
-            MatOfPoint contour = contours.get(i);
-            Rect boundingRect = Imgproc.boundingRect(contour);
-            double left = boundingRect.tl().y;
-            double right  = boundingRect.br().y;
-            if (left < leftMin) {
-                leftMin = left;
+        //assumes biggest contour detected will be produced by block
+        for (int i = 0; i <= areas.length; i++) {
+            areas[i] = (contours.get(i).width() * contours.get(i).height());
+            if (areas[i] > largestContour) {
+                largestContour = areas[i];
+                position = (Imgproc.boundingRect(contours.get(i)).tl().y + Imgproc.boundingRect(contours.get(i)).br().y) / 2;
             }
-            if (right > rightMax) {
-                rightMax = right;
-            }
-
-
-
-            Imgproc.rectangle(processed, boundingRect.tl(), boundingRect.br(), new Scalar(255, 0, 0));
         }
-        position = (leftMin + rightMax) / 2;
-
-        telemetry.addData ("position", position);
-        telemetry.addData ("left min", leftMin);
-        telemetry.addData ("right max", rightMax);
-        telemetry.addData ("num contours", contours.size());
-
-        //return processed;
         return processed;
     }
-
     @Override
-    public void useDefaults() {
+    public void useDefaults () {
     }
-
-    public List<MatOfPoint> getCountours() {
-        return pipeline.findContoursOutput();
-    }
+    public List<MatOfPoint> getContours = pipeline.filterContoursOutput();
 }
