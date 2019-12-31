@@ -39,6 +39,7 @@ public class Drivetrain {
     private double rightBackWheelPosition;
     private double leftFrontWheelPosition;
     private double rightFrontWheelPosition;
+    public double averageWheelPosition = (leftBackWheelPosition + leftFrontWheelPosition + rightFrontWheelPosition + rightBackWheelPosition) /4;
     private static Drivetrain instance;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {

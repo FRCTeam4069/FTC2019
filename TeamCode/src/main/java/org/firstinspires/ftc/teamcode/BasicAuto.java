@@ -18,7 +18,7 @@ public class BasicAuto extends OpMode {
     private NormalStoneDetector normalStoneDetector;
     private WebcamName webcam;
     private Scheduler scheduler;
-    private GoSideways goSideways = new GoSideways(0.5, normalStoneDetector, null);
+    private GoSideways goSideways = new GoSideways(0.5, 0, normalStoneDetector, null);
     private GoForwards goForwards = new GoForwards(0.75, 5000);
     @Override
     public void init () {

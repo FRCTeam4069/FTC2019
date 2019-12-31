@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 public class PickUpStone extends OpMode {
 
     NormalStoneDetector normalStoneDetector;
+    Drivetrain drivetrain;
 
     private WebcamName webcam;
     private Scheduler scheduler;
@@ -29,13 +30,14 @@ public class PickUpStone extends OpMode {
 
     @Override
     public void init() {
+        drivetrain = new Drivetrain(hardwareMap, telemetry);
         normalStoneDetector = new NormalStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
-        GoSideways goSideways = new GoSideways(0.5, normalStoneDetector, null);
-        GoForwards goForward = new GoForwards(-0.5, 2000);
+        GoSideways goSideways = new GoSideways(0.75, 0, normalStoneDetector, null);
+        GoForwards goForward = new GoForwards(-0.5, 1000);
         PassthroughOn passthroughOn = new PassthroughOn();
-        PassthroughOff passthroughOff = new PassthroughOff();
-        ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward);
+        PassthroughOff passthroughOff = new PassthroughOff(false);
+        ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward, false);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         normalStoneDetector.VUFORIA_KEY = Constants.VUFOIRA_KEY;
@@ -54,6 +56,5 @@ public class PickUpStone extends OpMode {
     @Override
     public void loop() {
         scheduler.loop();
-
     }
 }

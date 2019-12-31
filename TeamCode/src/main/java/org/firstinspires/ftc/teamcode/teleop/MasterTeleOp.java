@@ -32,7 +32,7 @@ public class MasterTeleOp extends OpMode {
 
     @Override public void loop() {
         drivetrain.update(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.x, gamepad1.b);
-        passthrough.update(gamepad1.a, gamepad1.y);
+        passthrough.update(gamepad1.a, gamepad1.y, Double.NaN);
         elevator.setMode(Elevator.ElevatorMode.MANUAL_CONTROL, -gamepad1.right_stick_y);
         elevator.update();
         if (gamepad1.left_bumper) {

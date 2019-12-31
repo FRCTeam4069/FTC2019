@@ -25,9 +25,9 @@ public class NormalStoneDetector extends DogeCVDetector {
     @Override
     public Mat process(Mat input) {
         pipeline.process(input.clone());
-        telemetry.addData("Number of contours", pipeline.findContoursOutput().size());
+        telemetry.addData("Number of contours", pipeline.filterContoursOutput().size());
 
-        ArrayList<MatOfPoint> contours = pipeline.findContoursOutput();
+        ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
         Mat processed = pipeline.blurOutput().clone();
 
         double leftMin = 1000000;
@@ -52,9 +52,6 @@ public class NormalStoneDetector extends DogeCVDetector {
         position = (leftMin + rightMax) / 2;
 
         telemetry.addData ("position", position);
-        telemetry.addData ("left min", leftMin);
-        telemetry.addData ("right max", rightMax);
-        telemetry.addData ("num contours", contours.size());
 
         //return processed;
         return processed;

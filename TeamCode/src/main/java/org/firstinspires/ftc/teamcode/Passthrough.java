@@ -14,6 +14,7 @@ public class Passthrough {
     private Servo clamp;
     Telemetry telemetry;
 
+
     public Passthrough(HardwareMap hardwareMap, Telemetry telemetry) {
         PTLeft = hardwareMap.get(CRServo.class, "PTLeft");
         PTRight = hardwareMap.get(CRServo.class, "PTRight");
@@ -23,7 +24,7 @@ public class Passthrough {
     }
 
 
-    public void update(boolean forward, boolean reverse) {
+    public void update(boolean forward, boolean reverse, double clampPosition) {
         if (forward) {
             PTLeft.setPower(-1);
             PTRight.setPower(1);
@@ -31,7 +32,7 @@ public class Passthrough {
         }
         else if (reverse) {
             PTLeft.setPower(1);
-            PTRight.setPower(-1);
+            PTRight.setPower(1);
             tilt.setPower(0);
         }
         else {
@@ -39,5 +40,6 @@ public class Passthrough {
             PTRight.setPower(0);
             tilt.setPower(0);
         }
+        clamp.setPosition(clampPosition);
     }
 }

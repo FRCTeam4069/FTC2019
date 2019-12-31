@@ -20,23 +20,24 @@ import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 @Autonomous(name = "PickUpStone")
-public class PickUpSkyStone extends OpMode {
+public class SkyStonePickUp extends OpMode {
 
     SkyStoneDetector skyStoneDetector;
 
     private WebcamName webcam;
     private Scheduler scheduler;
+    ParallelCommand parallelCommand;
 
 
     @Override
     public void init() {
         skyStoneDetector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
-        GoSideways goSideways = new GoSideways(0.5, null, skyStoneDetector);
+        GoSideways goSideways = new GoSideways(0.5, 0, null, skyStoneDetector);
         GoForwards goForward = new GoForwards(-0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
-        PassthroughOff passthroughOff = new PassthroughOff();
-        ParallelCommand parallelCommand = new ParallelCommand(passthroughOn, goForward);
+        PassthroughOff passthroughOff = new PassthroughOff(false);
+        parallelCommand = new ParallelCommand(passthroughOn, goForward, parallelCommand.command1IsFinished);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         skyStoneDetector.VUFORIA_KEY = Constants.VUFOIRA_KEY;

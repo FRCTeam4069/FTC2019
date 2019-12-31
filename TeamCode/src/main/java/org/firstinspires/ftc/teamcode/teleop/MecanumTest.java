@@ -18,7 +18,6 @@ public class MecanumTest extends OpMode {
     @Override
     public void init() {
         drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
-        servo = hardwareMap.get(Servo.class, "finalSolution");
     }
 
     @Override

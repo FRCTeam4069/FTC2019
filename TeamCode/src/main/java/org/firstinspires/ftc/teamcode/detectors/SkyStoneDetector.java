@@ -25,23 +25,23 @@ public class SkyStoneDetector extends DogeCVDetector {
 
     @Override
     public Mat process(Mat input) {
-        pipeline.process(input.clone());
-        telemetry.addData("Number of contours", pipeline.filterContoursOutput().size());
-
-        ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
+//        pipeline.process(input.clone());
+//        telemetry.addData("Number of contours filtered", pipeline.filterContoursOutput().size());
+//
+//        ArrayList<MatOfPoint> contours = pipeline.filterContoursOutput();
         Mat processed = pipeline.hsvThresholdOutput().clone();
 
-        int[] areas = new int[pipeline.filterContoursOutput().size()];
-        double largestContour = 0;
-
-        //assumes biggest contour detected will be produced by block
-        for (int i = 0; i <= areas.length; i++) {
-            areas[i] = (contours.get(i).width() * contours.get(i).height());
-            if (areas[i] > largestContour) {
-                largestContour = areas[i];
-                position = (Imgproc.boundingRect(contours.get(i)).tl().y + Imgproc.boundingRect(contours.get(i)).br().y) / 2;
-            }
-        }
+//        int[] areas = new int[pipeline.filterContoursOutput().size()];
+//        double largestContour = 0;
+//
+//        assumes biggest contour detected will be produced by block
+//        for (int i = 0; i <= areas.length; i++) {
+//            areas[i] = (contours.get(i).width() * contours.get(i).height());
+//            if (areas[i] > largestContour) {
+//                largestContour = areas[i];
+//                position = (Imgproc.boundingRect(contours.get(i)).tl().y + Imgproc.boundingRect(contours.get(i)).br().y) / 2;
+//            }
+//        }
         return processed;
     }
     @Override

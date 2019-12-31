@@ -1,24 +1,30 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
 public class GoForwards extends Command {
 
     private double speed;
+    private Servo clamp;
+    public double desiredPosition;
 
     public GoForwards (double speed, double desiredPosition) {
         this.speed = speed;
+        this.desiredPosition = desiredPosition;
     }
 
     @Override
     public void start() {
-
+        //clamp = HardwareMap.get(Servo.class, "clamp");
     }
 
     @Override
     public void loop() {
-        drivetrain.update(0, speed, 0, false, false);
+        drivetrain.update(0, -speed, 0, false, false);
     }
 
     public boolean isFinished() {
-        return false;
+        return desiredPosition == drivetrain.averageWheelPosition;
     }
 }

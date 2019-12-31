@@ -55,17 +55,17 @@ public class SkyStonePipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 1000.0;
+		double filterContoursMinArea = 1.0;
 		double filterContoursMinPerimeter = 0;
-		double filterContoursMinWidth = 355.0;
-		double filterContoursMaxWidth = 1000;
-		double filterContoursMinHeight = 150.0;
-		double filterContoursMaxHeight = 1000;
+		double filterContoursMinWidth = 1.0;
+		double filterContoursMaxWidth = 100000;
+		double filterContoursMinHeight = 1.0;
+		double filterContoursMaxHeight = 10000000;
 		double[] filterContoursSolidity = {0, 100};
 		double filterContoursMaxVertices = 1000000;
 		double filterContoursMinVertices = 0;
 		double filterContoursMinRatio = 0;
-		double filterContoursMaxRatio = 1000;
+		double filterContoursMaxRatio = 1000000;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}

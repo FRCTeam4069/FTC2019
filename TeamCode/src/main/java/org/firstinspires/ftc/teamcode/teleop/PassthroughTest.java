@@ -19,6 +19,6 @@ public class PassthroughTest extends OpMode {
     public void loop() {
 
 
-        passthrough.update(gamepad1.y, gamepad1.a);
+        passthrough.update(gamepad1.y, gamepad1.a, 0);
     }
 }

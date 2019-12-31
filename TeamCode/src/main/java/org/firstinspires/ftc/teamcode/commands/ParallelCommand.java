@@ -10,12 +10,14 @@ public class ParallelCommand extends Command {
 
     private Command command0;
     private Command command1;
-    private boolean command0IsFinished = false;
-    private boolean command1IsFinished = false;
+    public boolean command0IsFinished = false;
+    public boolean command1IsFinished = false;
+    public boolean singleCommandFinish;
 
-    public ParallelCommand(Command command0, Command command1) {
+    public ParallelCommand(Command command0, Command command1, Boolean singleCommandFinish) {
         this.command0 = command0;
         this.command1 = command1;
+        this.singleCommandFinish = singleCommandFinish;
     }
 
     @Override
@@ -43,6 +45,10 @@ public class ParallelCommand extends Command {
 
         if (command1.isFinished()) {
             command1IsFinished = true;
+        }
+
+        if (singleCommandFinish) {
+            return singleCommandFinish;
         }
 
         return command0IsFinished && command1IsFinished;
