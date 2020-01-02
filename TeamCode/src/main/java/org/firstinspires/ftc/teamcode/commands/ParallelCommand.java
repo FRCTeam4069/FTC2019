@@ -48,7 +48,7 @@ public class ParallelCommand extends Command {
         }
 
         if (singleCommandFinish) {
-            return singleCommandFinish;
+            return command0IsFinished;
         }
 
         return command0IsFinished && command1IsFinished;
