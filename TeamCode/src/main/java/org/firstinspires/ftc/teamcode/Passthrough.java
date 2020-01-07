@@ -32,7 +32,7 @@ public class Passthrough {
         }
         else if (reverse) {
             PTLeft.setPower(1);
-            PTRight.setPower(1);
+            PTRight.setPower(-1);
             tilt.setPower(0);
         }
         else {

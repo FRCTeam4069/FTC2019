@@ -39,7 +39,7 @@ public class Drivetrain {
     private double rightBackWheelPosition;
     private double leftFrontWheelPosition;
     private double rightFrontWheelPosition;
-    public double averageWheelPosition = (leftBackWheelPosition + leftFrontWheelPosition + rightFrontWheelPosition + rightBackWheelPosition) /4;
+    public double averageWheelPosition;
     private static Drivetrain instance;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -181,6 +181,7 @@ public class Drivetrain {
         FRlastPosition = rightFrontCurPos;
         FLlastPosition = leftFrontCurPos;
         BRlastPosition = rightBackCurPos;
+        averageWheelPosition = ((((double)leftBack.getCurrentPosition()) + ((double)rightBack.getCurrentPosition()) + ((double)leftFront.getCurrentPosition()) + ((double)rightFront.getCurrentPosition())) / 4);
     }
 
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {

@@ -42,7 +42,7 @@ public class StonePipeline {
         // Step HSV_Threshold0:
         Mat hsvThresholdInput = source0;
         double[] hsvThresholdHue = {11, 100};
-        double[] hsvThresholdSaturation = {155.93525179856115, 255.0};
+        double[] hsvThresholdSaturation = {155, 255.0};
         double[] hsvThresholdValue = {100, 255.0};
         hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 

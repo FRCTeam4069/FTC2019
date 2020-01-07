@@ -22,6 +22,8 @@ public class GoForwards extends Command {
     @Override
     public void loop() {
         drivetrain.update(0, -speed, 0, false, false);
+        telemetry.addData("Desired Position", desiredPosition);
+        telemetry.addData("Actual Position", drivetrain.averageWheelPosition);
     }
 
     public boolean isFinished() {

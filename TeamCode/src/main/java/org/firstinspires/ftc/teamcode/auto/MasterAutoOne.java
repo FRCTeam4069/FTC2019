@@ -45,15 +45,11 @@ public class MasterAutoOne extends OpMode {
         GoForwards goForwardsOne = new GoForwards (-0.8, 1000);
         PassthroughOn passthroughOn = new PassthroughOn();
         parallelCommandOne = new ParallelCommand(goForwardsOne, passthroughOn, true);
-        PassthroughOff passthroughOffTurnOn = new PassthroughOff(false);
-        PassthroughOff passthroughOffTurnOff = new PassthroughOff(true);
         GoForwards goBackwardsOne = new GoForwards(0.8, 1000);
         GoSideways goSidewaysTwo = new GoSideways(0.75, 4000, null, null);
         passthrough.update(false, false, 0);
         scheduler.add(goSidewaysOne);
         scheduler.add(parallelCommandOne);
-        scheduler.add(passthroughOffTurnOn);
-        scheduler.add(passthroughOffTurnOff);
         scheduler.add(goBackwardsOne);
         scheduler.add(goSidewaysTwo);
     }
