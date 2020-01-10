@@ -31,8 +31,12 @@ public class MasterTeleOp extends OpMode {
     }
 
     @Override public void loop() {
-        double strafe = (gamepad1.dpad_right ? 1 : 0) + (gamepad1.dpad_left ? -1 : 0);
-
+        double strafe = -gamepad1.left_stick_x;
+        if(gamepad1.dpad_right) {
+            strafe = 1.0;
+        } else if(gamepad1.dpad_left) {
+            strafe = -1.0;
+        }
         drivetrain.update(strafe, -gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.left_bumper, gamepad1.right_bumper);
         if (gamepad2.left_bumper) {
             speed = 1.0;
