@@ -44,7 +44,7 @@ public class MatPullAuto extends OpMode {
 
         //scheduler.add(goSideways);
         //scheduler.add(parallelCommand1);
-        scheduler.add(raiseDropdown);
+//        scheduler.add(raiseDropdown);
 //        scheduler.add(goForwards);
 //        scheduler.add(lowerDropdown);
 //        scheduler.add(holdAndBack);
@@ -53,6 +53,7 @@ public class MatPullAuto extends OpMode {
 
     @Override
     public void loop() {
-        scheduler.loop();
+        dropOff.update(0.5);
+//        scheduler.loop();
     }
 }
