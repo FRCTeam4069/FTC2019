@@ -41,6 +41,8 @@ public class Scheduler {
         }
 
         Command firstCommand = commandQueue.get(0);
+        telemetry.addData("current command", firstCommand.getClass().getName());
+        telemetry.update();
         firstCommand.loop();
         if (firstCommand.isFinished()) {
             commandQueue.remove(0);

@@ -7,7 +7,7 @@ public class DropdownOn extends Command {
 //    private double runningTimeMillis;
 //    private double endTime;
 
-    public DropdownOn(double power, double runningTimeMillis) {
+    public DropdownOn(double power) {
         this.power = power;
 //        this.runningTimeMillis = runningTimeMillis;
     }
