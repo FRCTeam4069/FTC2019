@@ -36,13 +36,14 @@ public class Scheduler {
     }
 
     public void loop() {
+        if (commandQueue.isEmpty()) {
+            return;
+        }
+
         Command firstCommand = commandQueue.get(0);
         firstCommand.loop();
         if (firstCommand.isFinished()) {
             commandQueue.remove(0);
-            if (!commandQueue.isEmpty()) {
-                commandQueue.get(0).loop();
-            }
         }
     }
 
