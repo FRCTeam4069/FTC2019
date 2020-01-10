@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.DropOff;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.commands.GoForwards;
 import org.firstinspires.ftc.teamcode.commands.GoSideways;
@@ -24,6 +25,7 @@ public class MasterAutoOne extends OpMode {
     Scheduler scheduler;
     Passthrough passthrough;
     ParallelCommand parallelCommandOne;
+    DropOff dropOff;
 
     private WebcamName webcam;
     private NormalStoneDetector detector;
@@ -33,7 +35,8 @@ public class MasterAutoOne extends OpMode {
         drivetrain = new Drivetrain(hardwareMap, telemetry);
         detector = new NormalStoneDetector(telemetry);
         passthrough = new Passthrough(hardwareMap, telemetry);
-        scheduler = new Scheduler(drivetrain, detector, null, telemetry, passthrough);
+        dropOff = new DropOff(hardwareMap, telemetry);
+        scheduler = new Scheduler(drivetrain, detector, null, telemetry, passthrough, dropOff);
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
         detector.VUFORIA_KEY = Constants.VUFOIRA_KEY;

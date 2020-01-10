@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.DropOff;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
@@ -17,18 +18,20 @@ public class Scheduler {
     private Telemetry telemetry;
     private Passthrough passthrough;
     private SkyStoneDetector skyStoneDetector;
+    private DropOff dropOff;
 
-    public Scheduler(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough) {
+    public Scheduler(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough, DropOff dropOff) {
         this.drivetrain = drivetrain;
         this.normalStoneDetector = normalStoneDetector;
         this.telemetry = telemetry;
         this.commandQueue = new ArrayList<>();
         this.passthrough = passthrough;
         this.skyStoneDetector = skyStoneDetector;
+        this.dropOff = dropOff;
     }
 
     public void add(Command command) {
-        command.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough);
+        command.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
         commandQueue.add(command);
     }
 

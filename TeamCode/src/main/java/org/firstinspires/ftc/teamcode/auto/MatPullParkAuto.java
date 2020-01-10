@@ -9,14 +9,12 @@ import org.firstinspires.ftc.teamcode.commands.DropdownOff;
 import org.firstinspires.ftc.teamcode.commands.DropdownOn;
 import org.firstinspires.ftc.teamcode.commands.GoForwards;
 import org.firstinspires.ftc.teamcode.commands.GoSideways;
-import org.firstinspires.ftc.teamcode.commands.ParallelCommand;
 import org.firstinspires.ftc.teamcode.commands.Scheduler;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
 
 @Autonomous
-public class MatPullAuto extends OpMode {
-
+public class MatPullParkAuto extends OpMode {
     Drivetrain drivetrain;
     NormalStoneDetector normalStoneDetector;
     SkyStoneDetector skyStoneDetector;
@@ -32,21 +30,16 @@ public class MatPullAuto extends OpMode {
         passthrough = new Passthrough (hardwareMap, telemetry);
         dropOff = new DropOff(hardwareMap, telemetry);
         scheduler = new Scheduler(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
-        GoSideways goSideways = new GoSideways(0.75, 500, null, null);
-        DropdownOn dropdownOn1 = new DropdownOn(0.1, 4000);
-        GoForwards goForwards = new GoForwards(0.75, 1500);
-        ParallelCommand parallelCommand1 = new ParallelCommand(dropdownOn1, goForwards, false);
-        DropdownOn dropdownOn = new DropdownOn(0.1, 2000);
-        GoForwards goBackwards = new GoForwards(-0.75, -1550);
-        ParallelCommand parallelCommand = new ParallelCommand(dropdownOn, goBackwards, false);
+        GoSideways goSideways = new GoSideways(0.5, 2000, null, null);
+        GoForwards goForwards = new GoForwards(0.5, 1000);
+        DropdownOn dropdownOn = new DropdownOn(0.35, 1000);
+        GoForwards goBackwards = new GoForwards(0.5, -1000);
         DropdownOff dropDownUp = new DropdownOff();
-        GoSideways goSideways2 = new GoSideways(0.75, -2200, null, null);
+        GoSideways goSideways2 = new GoSideways(0.5, -2200, null, null);
         scheduler.add(goSideways);
-        scheduler.add(parallelCommand1);
-        //scheduler.add(dropdown);
-        //scheduler.add(goForwards);
-        //scheduler.add(goBackwards);
-        scheduler.add(parallelCommand);
+        scheduler.add(goForwards);
+        scheduler.add(dropdownOn);
+        scheduler.add(goBackwards);
         scheduler.add(dropDownUp);
         scheduler.add(goSideways2);
     }

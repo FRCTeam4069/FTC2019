@@ -35,10 +35,10 @@ public class Drivetrain {
     private double BRlastPosition = -1.0;
     double lastAngle = Double.NaN;
     private double lastError = Double.NaN;
-    private double leftBackWheelPosition;
-    private double rightBackWheelPosition;
-    private double leftFrontWheelPosition;
-    private double rightFrontWheelPosition;
+    public double leftBackWheelPosition;
+    public double rightBackWheelPosition;
+    public double leftFrontWheelPosition;
+    public double rightFrontWheelPosition;
     public double averageWheelPosition;
     private static Drivetrain instance;
 
@@ -56,6 +56,14 @@ public class Drivetrain {
         rightBackWheelPosition = rightBack.getCurrentPosition();
         leftFrontWheelPosition = leftFront.getCurrentPosition();
         rightFrontWheelPosition = rightFront.getCurrentPosition();
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /**
@@ -109,6 +117,7 @@ public class Drivetrain {
         double desiredRightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
 
         double expectedTurnSpeed = turn * 10;
+        expectedTurnSpeed += strafe * 0.7;
 
         if (x) {
             expectedTurnSpeed += 3;
@@ -182,6 +191,15 @@ public class Drivetrain {
         FLlastPosition = leftFrontCurPos;
         BRlastPosition = rightBackCurPos;
         averageWheelPosition = ((((double)leftBack.getCurrentPosition()) + ((double)rightBack.getCurrentPosition()) + ((double)leftFront.getCurrentPosition()) + ((double)rightFront.getCurrentPosition())) / 4);
+        rightFrontWheelPosition = rightFront.getCurrentPosition();
+        leftFrontWheelPosition = leftFront.getCurrentPosition();
+        rightBackWheelPosition = rightBack.getCurrentPosition();
+        leftBackWheelPosition = leftBack.getCurrentPosition();
+        telemetry.addData("right Front position: ", rightFrontWheelPosition);
+        telemetry.addData("right Back position: ", rightBackWheelPosition);
+        telemetry.addData("left Front position: ", leftFrontWheelPosition);
+        telemetry.addData("left Back position: ", leftBackWheelPosition);
+        telemetry.addData("Average Position: ", averageWheelPosition);
     }
 
     public static Drivetrain getInstance(HardwareMap hardwareMap, Telemetry telemetry) {

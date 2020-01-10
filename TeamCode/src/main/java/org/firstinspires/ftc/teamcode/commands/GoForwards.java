@@ -8,15 +8,17 @@ public class GoForwards extends Command {
     private double speed;
     private Servo clamp;
     public double desiredPosition;
+    private double startPosition;
 
     public GoForwards (double speed, double desiredPosition) {
         this.speed = speed;
         this.desiredPosition = desiredPosition;
+
     }
 
     @Override
     public void start() {
-        //clamp = HardwareMap.get(Servo.class, "clamp");
+        this.startPosition = drivetrain.averageWheelPosition;
     }
 
     @Override
@@ -27,6 +29,6 @@ public class GoForwards extends Command {
     }
 
     public boolean isFinished() {
-        return desiredPosition == drivetrain.averageWheelPosition;
+        return Math.abs(desiredPosition - startPosition) < Math.abs(drivetrain.averageWheelPosition);
     }
 }

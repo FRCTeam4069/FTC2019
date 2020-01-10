@@ -38,6 +38,12 @@ public class MasterTeleOp extends OpMode {
         else if (gamepad2.right_bumper) {
             speed -= 0.05;
         }
+        if (speed > 1) {
+            speed = 1;
+        }
+        if (speed < 0) {
+            speed = 0;
+        }
         clamp.setPosition(speed);
         if (gamepad2.dpad_right) {
             tilt.setPower(0.5);

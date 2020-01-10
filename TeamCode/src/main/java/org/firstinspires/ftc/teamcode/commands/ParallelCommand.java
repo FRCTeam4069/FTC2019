@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.DropOff;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.detectors.NormalStoneDetector;
 import org.firstinspires.ftc.teamcode.detectors.SkyStoneDetector;
@@ -55,9 +56,9 @@ public class ParallelCommand extends Command {
     }
 
     @Override
-    public void setSubsystems(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough) {
-        super.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough);
-        command0.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough);
-        command1.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough);
+    public void setSubsystems(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough, DropOff dropOff) {
+        super.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
+        command0.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
+        command1.setSubsystems(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
     }
 }

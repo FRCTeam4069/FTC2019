@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import org.firstinspires.ftc.teamcode.DropOff;
 
 public class DropdownOn extends Command {
 
-    DropOff dropOff;
     private double power;
     private double runningTimeMillis;
     private double time;
@@ -17,7 +15,6 @@ public class DropdownOn extends Command {
 
     @Override
     public void start() {
-        dropOff = new DropOff(hardwareMap, telemetry);
         time = System.currentTimeMillis();
     }
 
@@ -29,6 +26,11 @@ public class DropdownOn extends Command {
 
     @Override
     boolean isFinished() {
-        return time2 > time + runningTimeMillis;
+        if(time2 > time + runningTimeMillis){
+            dropOff.update(0);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

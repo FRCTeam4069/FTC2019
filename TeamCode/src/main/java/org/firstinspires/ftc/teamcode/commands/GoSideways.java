@@ -45,7 +45,7 @@ public class GoSideways extends Command {
             return skyStoneDetector.position > 320 && skyStoneDetector.position != 500000;
         }
         else {
-            return drivingPosition  == drivetrain.averageWheelPosition;
+            return drivingPosition  < -drivetrain.rightFrontWheelPosition;
         }
     }
 }

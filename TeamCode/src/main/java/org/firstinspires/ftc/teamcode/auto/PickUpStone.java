@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Drivetrain;
+import org.firstinspires.ftc.teamcode.DropOff;
 import org.firstinspires.ftc.teamcode.Passthrough;
 import org.firstinspires.ftc.teamcode.commands.GoForwards;
 import org.firstinspires.ftc.teamcode.commands.GoSideways;
@@ -23,6 +24,7 @@ public class PickUpStone extends OpMode {
 
     NormalStoneDetector normalStoneDetector;
     Drivetrain drivetrain;
+    DropOff dropOff;
 
     private WebcamName webcam;
     private Scheduler scheduler;
@@ -47,8 +49,9 @@ public class PickUpStone extends OpMode {
 
         Drivetrain drivetrain = Drivetrain.getInstance(hardwareMap, telemetry);
         Passthrough passthrough = new Passthrough(hardwareMap, telemetry);
+        dropOff = new DropOff(hardwareMap, telemetry);
 
-        scheduler = new Scheduler(drivetrain, normalStoneDetector, null, telemetry, passthrough);
+        scheduler = new Scheduler(drivetrain, normalStoneDetector, null, telemetry, passthrough, dropOff);
         scheduler.add(goSideways);
         scheduler.add(parallelCommand);
     }
