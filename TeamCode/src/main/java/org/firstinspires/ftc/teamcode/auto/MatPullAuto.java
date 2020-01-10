@@ -39,15 +39,14 @@ public class MatPullAuto extends OpMode {
         DropdownOn dropdownOn = new DropdownOn(0.1, 2000);
         GoForwards goBackwards = new GoForwards(-0.75, -1550);
         ParallelCommand parallelCommand = new ParallelCommand(dropdownOn, goBackwards, false);
-        DropdownOff dropDownUp = new DropdownOff();
         GoSideways goSideways2 = new GoSideways(0.75, -2200, null, null);
+
         scheduler.add(goSideways);
         scheduler.add(parallelCommand1);
         //scheduler.add(dropdown);
         //scheduler.add(goForwards);
         //scheduler.add(goBackwards);
         scheduler.add(parallelCommand);
-        scheduler.add(dropDownUp);
         scheduler.add(goSideways2);
     }
 
