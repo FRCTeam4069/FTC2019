@@ -19,6 +19,9 @@ public class Scheduler {
     private Passthrough passthrough;
     private SkyStoneDetector skyStoneDetector;
     private DropOff dropOff;
+    private boolean programBegun = false;
+
+
 
     public Scheduler(Drivetrain drivetrain, NormalStoneDetector normalStoneDetector, SkyStoneDetector skyStoneDetector, Telemetry telemetry, Passthrough passthrough, DropOff dropOff) {
         this.drivetrain = drivetrain;
@@ -41,6 +44,12 @@ public class Scheduler {
         }
 
         Command firstCommand = commandQueue.get(0);
+
+        if (!programBegun) {
+            firstCommand.start();
+            programBegun = true;
+        }
+
         firstCommand.loop();
         if (firstCommand.isFinished()) {
             commandQueue.remove(0);
