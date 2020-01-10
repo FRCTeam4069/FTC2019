@@ -117,7 +117,7 @@ public class Drivetrain {
         double desiredRightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
 
         double expectedTurnSpeed = turn * 10;
-        expectedTurnSpeed += strafe * 0.7;
+        expectedTurnSpeed += strafe * 1.2;
 
         if (x) {
             expectedTurnSpeed += 3;

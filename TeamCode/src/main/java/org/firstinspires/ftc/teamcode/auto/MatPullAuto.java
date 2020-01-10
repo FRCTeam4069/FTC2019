@@ -32,22 +32,23 @@ public class MatPullAuto extends OpMode {
         passthrough = new Passthrough (hardwareMap, telemetry);
         dropOff = new DropOff(hardwareMap, telemetry);
         scheduler = new Scheduler(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
-        GoSideways goSideways = new GoSideways(0.75, 500, null, null);
-        DropdownOn dropdownOn1 = new DropdownOn(-0.7, 4000);
-        GoForwards goForwards = new GoForwards(0.75, 1500);
-        ParallelCommand parallelCommand1 = new ParallelCommand(dropdownOn1, goForwards, false);
-        DropdownOn dropdownOn = new DropdownOn(0.5, 2000);
-        GoForwards goBackwards = new GoForwards(-0.75, -1550);
-        ParallelCommand parallelCommand = new ParallelCommand(dropdownOn, goBackwards, false);
+        //GoSideways goSideways = new GoSideways(0.9, 1500, null, null);
+        DropdownOn raiseDropdown = new DropdownOn(-0.7, 10000);
+        GoForwards goForwards = new GoForwards(0.75, 1200);
+        //ParallelCommand parallelCommand1 = new ParallelCommand(raiseDropdown, goForwards, false);
+        DropdownOn lowerDropdown = new DropdownOn(0.5, 1000);
+        DropdownOn holdDropdown = new DropdownOn(0.5, 10000);
+        GoForwards goBackwards = new GoForwards(-0.75, 1200);
+        ParallelCommand holdAndBack = new ParallelCommand(goBackwards, holdDropdown, true);
         GoSideways goSideways2 = new GoSideways(0.75, -2200, null, null);
 
-        scheduler.add(goSideways);
-        scheduler.add(parallelCommand1);
-        //scheduler.add(dropdown);
-        //scheduler.add(goForwards);
-        //scheduler.add(goBackwards);
-        scheduler.add(parallelCommand);
-        scheduler.add(goSideways2);
+        //scheduler.add(goSideways);
+        //scheduler.add(parallelCommand1);
+        scheduler.add(raiseDropdown);
+//        scheduler.add(goForwards);
+//        scheduler.add(lowerDropdown);
+//        scheduler.add(holdAndBack);
+//        scheduler.add(goSideways2);
     }
 
     @Override

@@ -5,8 +5,7 @@ public class DropdownOn extends Command {
 
     private double power;
     private double runningTimeMillis;
-    private double time;
-    private double time2;
+    private double endTime;
 
     public DropdownOn(double power, double runningTimeMillis) {
         this.power = power;
@@ -15,18 +14,20 @@ public class DropdownOn extends Command {
 
     @Override
     public void start() {
-        time = System.currentTimeMillis();
+        endTime = System.currentTimeMillis() + runningTimeMillis;
     }
 
     @Override
     public void loop() {
         dropOff.update(-power);
-        time2 = System.currentTimeMillis();
     }
 
     @Override
     boolean isFinished() {
-        if(time2 > time + runningTimeMillis){
+        if(System.currentTimeMillis() > endTime){
+            telemetry.addData("endTime", endTime);
+            telemetry.addData("currentTime", System.currentTimeMillis());
+            telemetry.update();
             dropOff.update(0);
             return true;
         }else{

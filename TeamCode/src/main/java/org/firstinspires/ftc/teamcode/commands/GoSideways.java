@@ -38,14 +38,19 @@ public class GoSideways extends Command {
 
     @Override
     public boolean isFinished() {
+        boolean done;
         if(normalStoneDetector != null && drivingPosition == 0) {
-            return normalStoneDetector.position > 320 && normalStoneDetector.position != 500000;
+            done = normalStoneDetector.position > 320 && normalStoneDetector.position != 500000;
         }
-        if(skyStoneDetector != null && drivingPosition == 0) {
-            return skyStoneDetector.position > 320 && skyStoneDetector.position != 500000;
+        else if(skyStoneDetector != null && drivingPosition == 0) {
+            done = skyStoneDetector.position > 320 && skyStoneDetector.position != 500000;
         }
         else {
-            return drivingPosition  < -drivetrain.rightFrontWheelPosition;
+            done = drivingPosition  < -drivetrain.rightFrontWheelPosition;
         }
+        if (done) {
+            drivetrain.update(0, 0, 0, false, false);
+        }
+        return done;
     }
 }
