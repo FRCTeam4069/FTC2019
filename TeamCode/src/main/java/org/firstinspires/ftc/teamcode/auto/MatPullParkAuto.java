@@ -30,12 +30,12 @@ public class MatPullParkAuto extends OpMode {
         passthrough = new Passthrough (hardwareMap, telemetry);
         dropOff = new DropOff(hardwareMap, telemetry);
         scheduler = new Scheduler(drivetrain, normalStoneDetector, skyStoneDetector, telemetry, passthrough, dropOff);
-        GoSideways goSideways = new GoSideways(0.5, 2000, null, null);
+        GoSideways goSideways = new GoSideways(0.5, 2000, null, null, null);
         GoForwards goForwards = new GoForwards(0.5, 1000);
         DropdownOn dropdownOn = new DropdownOn(0.35, 1000);
         GoForwards goBackwards = new GoForwards(0.5, -1000);
         DropdownOff dropDownUp = new DropdownOff();
-        GoSideways goSideways2 = new GoSideways(0.5, -2200, null, null);
+        GoSideways goSideways2 = new GoSideways(0.5, -2200, null, null, null);
         scheduler.add(goSideways);
         scheduler.add(goForwards);
         scheduler.add(dropdownOn);

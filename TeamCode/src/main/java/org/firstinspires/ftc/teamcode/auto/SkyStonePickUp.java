@@ -35,7 +35,7 @@ public class SkyStonePickUp extends OpMode {
     public void init() {
         skyStoneDetector = new SkyStoneDetector(telemetry);
         telemetry.addData("DogeCV Camera Test", "Init");
-        GoSideways goSideways = new GoSideways(0.5, 0, null, skyStoneDetector);
+        GoSideways goSideways = new GoSideways(0.5, 0, null, skyStoneDetector, null);
         GoForwards goForward = new GoForwards(-0.5, 2000);
         PassthroughOn passthroughOn = new PassthroughOn();
         PassthroughOff passthroughOff = new PassthroughOff(false);
