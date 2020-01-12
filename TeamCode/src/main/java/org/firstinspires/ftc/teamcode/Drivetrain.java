@@ -209,4 +209,114 @@ public class Drivetrain {
         return instance;
     }
 
+    public void updateNoTurn(double strafe, double forward, double turn) {
+
+
+        double direction = Math.atan2(forward, strafe);
+        double leftBackCurPos = ((double)leftBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double rightFrontCurPos = ((double)rightFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double leftFrontCurPos = ((double)leftFront.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double rightBackCurPos = ((double)rightBack.getCurrentPosition() / 480.0) * 2.0 * Math.PI;
+        double leftBackChange = leftBackCurPos - BLlastPosition;
+        double rightFrontChange = rightFrontCurPos - FRlastPosition;
+        double leftFrontChange = leftFrontCurPos - FLlastPosition;
+        double rightBackChange = rightBackCurPos - BRlastPosition;
+
+        double currentTime = System.currentTimeMillis();
+        double timeElapsed;
+        if (lastTime > 0){
+            timeElapsed = currentTime - lastTime;
+        }
+        else  {
+            timeElapsed = 0;
+        }
+
+        double actualLeftBackVel = leftBackChange / timeElapsed;
+        double actualRightFrontVel = rightFrontChange / timeElapsed;
+        double actualLeftFrontVel = leftFrontChange / timeElapsed;
+        double actualRightBackVel = rightBackChange / timeElapsed;
+
+        double speed = Math.hypot(forward, strafe);
+        double desiredLeftBackSpeed = Math.sin(direction - Math.PI / 4) * speed;
+        double desiredRightFrontSpeed = Math.sin(direction - Math.PI / 4) * speed;
+        double desiredLeftFrontSpeed = Math.sin(direction + Math.PI / 4) * speed;
+        double desiredRightBackSpeed = Math.sin(direction + Math.PI / 4) * speed;
+
+        double expectedTurnSpeed = 0;
+
+        double turnSpeed = Math.toRadians(navx.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+
+        double error = expectedTurnSpeed - turnSpeed;
+        double derivative;
+        if (Double.isNaN(lastError)) {
+            derivative = 0;
+        } else {
+            derivative = (error - lastError) / timeElapsed;
+        }
+
+
+        telemetry.addData("error", error);
+        telemetry.addData("derivative", derivative);
+
+        double turnP = 0.8;
+        double turnD = 0.2;
+        double output = error * turnP + turnD * derivative;
+
+        telemetry.addData("expected turn speed", expectedTurnSpeed);
+        telemetry.addData("turn speed", turnSpeed);
+
+
+        desiredLeftBackSpeed = desiredLeftBackSpeed + output;
+        desiredLeftFrontSpeed = desiredLeftFrontSpeed + output;
+        desiredRightBackSpeed = desiredRightBackSpeed - output;
+        desiredRightFrontSpeed = desiredRightFrontSpeed - output;
+
+
+
+        double leftBackError = desiredLeftBackSpeed - actualLeftBackVel;
+        double rightFrontError = desiredRightFrontSpeed - actualRightFrontVel;
+        double leftFrontError = desiredLeftFrontSpeed - actualLeftFrontVel;
+        double rightBackError = desiredRightBackSpeed - actualRightBackVel;
+
+        double kP = -0.1;
+
+        double leftBackOutput = desiredLeftBackSpeed + (leftBackError * kP);
+        double leftFrontOutput = desiredLeftFrontSpeed + (leftFrontError * kP);
+        double rightBackOutput = desiredRightBackSpeed + (rightBackError * kP);
+        double rightFrontOutput = desiredRightFrontSpeed + (rightFrontError * kP);
+
+
+        double fac1 = max(abs(leftBackOutput), abs(rightBackOutput));
+        double fac2 = max(abs(leftFrontOutput), abs(rightFrontOutput));
+        double speedScalingFactor = max(fac1, fac2);
+
+        if (speedScalingFactor > 1) {
+            leftBackOutput /= speedScalingFactor;
+            leftFrontOutput /= speedScalingFactor;
+            rightBackOutput /= speedScalingFactor;
+            rightFrontOutput /= speedScalingFactor;
+        }
+
+        leftBack.setPower(leftBackOutput);
+        rightBack.setPower(rightBackOutput);
+        leftFront.setPower(leftFrontOutput);
+        rightFront.setPower(rightFrontOutput);
+
+        lastTime = currentTime;
+        lastError = error;
+        BLlastPosition = leftBackCurPos;
+        FRlastPosition = rightFrontCurPos;
+        FLlastPosition = leftFrontCurPos;
+        BRlastPosition = rightBackCurPos;
+        averageWheelPosition = ((((double)leftBack.getCurrentPosition()) + ((double)rightBack.getCurrentPosition()) + ((double)leftFront.getCurrentPosition()) + ((double)rightFront.getCurrentPosition())) / 4);
+        rightFrontWheelPosition = rightFront.getCurrentPosition();
+        leftFrontWheelPosition = leftFront.getCurrentPosition();
+        rightBackWheelPosition = rightBack.getCurrentPosition();
+        leftBackWheelPosition = leftBack.getCurrentPosition();
+        telemetry.addData("right Front position: ", rightFrontWheelPosition);
+        telemetry.addData("right Back position: ", rightBackWheelPosition);
+        telemetry.addData("left Front position: ", leftFrontWheelPosition);
+        telemetry.addData("left Back position: ", leftBackWheelPosition);
+        telemetry.addData("Average Position: ", averageWheelPosition);
+    }
 }

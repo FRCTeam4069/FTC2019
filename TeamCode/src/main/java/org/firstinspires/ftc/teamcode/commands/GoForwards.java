@@ -9,9 +9,11 @@ public class GoForwards extends Command {
     private Servo clamp;
     public double desiredPosition;
     private double startPosition;
+    private boolean reversed;
 
     public GoForwards (double speed, double desiredPosition) {
         this.speed = speed;
+        this.reversed = speed < 0.0;
         this.desiredPosition = desiredPosition;
 
     }
@@ -29,6 +31,10 @@ public class GoForwards extends Command {
     }
 
     public boolean isFinished() {
-        return Math.abs(desiredPosition - startPosition) < Math.abs(drivetrain.averageWheelPosition);
+        if(!reversed) {
+            return Math.abs(desiredPosition - startPosition) < Math.abs(drivetrain.averageWheelPosition);
+        } else {
+            return Math.abs(desiredPosition - Math.abs(startPosition)) > Math.abs(drivetrain.averageWheelPosition);
+        }
     }
 }

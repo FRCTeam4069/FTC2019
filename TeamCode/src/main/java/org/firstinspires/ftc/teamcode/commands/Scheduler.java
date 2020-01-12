@@ -52,6 +52,7 @@ public class Scheduler {
 
         firstCommand.loop();
         if (firstCommand.isFinished()) {
+            telemetry.clearAll();
             commandQueue.remove(0);
             if (!commandQueue.isEmpty()) {
                 commandQueue.get(0).start();

@@ -12,12 +12,14 @@ public class DropdownOff extends Command {
     public void start() {
         time = System.currentTimeMillis();
     }
+
     @Override
     public void loop() {
-        dropOff.update(1);
+        dropOff.update(0.5);
     }
+
     @Override
     boolean isFinished() {
-        return System.currentTimeMillis() < time + 1000;
+        return true;
     }
 }

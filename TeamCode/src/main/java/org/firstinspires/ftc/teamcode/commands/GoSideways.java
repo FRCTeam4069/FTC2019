@@ -23,7 +23,8 @@ public class GoSideways extends Command {
     @Override
     public void loop() {
 
-        drivetrain.update(speed, 0, 0, false, false);
+//        drivetrain.update(speed, 0, 0, false, false);
+        drivetrain.updateNoTurn(speed, 0, 0);
 
         if(normalStoneDetector != null && drivingPosition == 0) {
             telemetry.addData("Position", normalStoneDetector.position);
