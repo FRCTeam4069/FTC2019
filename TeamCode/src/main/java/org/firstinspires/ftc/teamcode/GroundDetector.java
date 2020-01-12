@@ -11,8 +11,7 @@ public class GroundDetector {
     public boolean isRed = false;
     public boolean isBlue = false;
 
-    public GroundDetector(HardwareMap hardwareMap, Telemetry telemetry, ColorSensor colourSensor) {
-        this.colourSensor = colourSensor;
+    public GroundDetector(HardwareMap hardwareMap, Telemetry telemetry) {
         colourSensor = hardwareMap.get(ColorSensor.class, "groundColour");
     }
     public void locateLine () {

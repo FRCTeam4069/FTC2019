@@ -41,20 +41,18 @@ public class MatPullAuto extends OpMode {
         DropdownOnNoTimeout holdDropdown = new DropdownOnNoTimeout(0.5);
         GoForwards goBackwards = new GoForwards(-0.75, 800);
         ParallelCommand holdAndBack = new ParallelCommand(goBackwards, holdDropdown, true);
-        GoSideways goSideways2 = new GoSideways(0.75, 6600, null, null, null);
+        GoSideways goSideways2 = new GoSideways(0.75, -6600, null, null, null);
 
         //scheduler.add(goSideways);
-        scheduler.add(new GoSideways(-0.75, 10000, null, null, null));
-//        scheduler.add(new DropdownOnNoTimeout(-0.5));
-//        scheduler.add(goForwards);
-//        scheduler.add(new WaitCommand(500));
-//        scheduler.add(holdDropdown);
-//        scheduler.add(new WaitCommand(1000));
-//        scheduler.add(goBackwards);
-//        scheduler.add(new DropdownOff());
-//        scheduler.add(goSideways2);
-//        scheduler.add(new GoForwards(0.75, 600));
-//        scheduler.add(new GoSideways(-0.75, 8000,null, null, null));
+        scheduler.add(new DropdownOnNoTimeout(-0.5));
+        scheduler.add(new GoSideways(0.75, 250, null, null, null));
+        scheduler.add(goForwards);
+        scheduler.add(new WaitCommand(500));
+        scheduler.add(holdDropdown);
+        scheduler.add(new WaitCommand(1000));
+        scheduler.add(goBackwards);
+        scheduler.add(new DropdownOff());
+        scheduler.add(goSideways2);
     }
 
     @Override

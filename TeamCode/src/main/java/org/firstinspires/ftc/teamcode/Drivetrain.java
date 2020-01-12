@@ -76,6 +76,16 @@ public class Drivetrain {
 
         return orientation.firstAngle;
     }
+    public void ResetEncoders() {
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
     /**
      * A function to translate operator inputs into wheel speeds and then update the motors.
@@ -83,6 +93,7 @@ public class Drivetrain {
      * @param forward The component of motion in the forward direction
      * @param strafe The component of motion in the lateral direction
      * @param turn
+     *
      */
     public void update(double strafe, double forward, double turn, boolean x, boolean b) {
 
