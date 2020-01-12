@@ -20,12 +20,22 @@ public class DropOff {
     private CRServo dropOffMotor;
     private Telemetry telemetry;
 
+    private double lastDemand = 0.0;
+
     public DropOff(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         dropOffMotor = hardwareMap.get(CRServo.class, "Elevator");
     }
 
-    public void update(double power) {
-        dropOffMotor.setPower(power);
-        }
+    public void setPower(double power) {
+        lastDemand = power;
     }
+
+    public void update(double power) {
+        if(power != lastDemand) {
+            lastDemand = power;
+        }
+
+        dropOffMotor.setPower(lastDemand);
+    }
+}
