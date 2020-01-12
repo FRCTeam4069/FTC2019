@@ -44,12 +44,12 @@ public class MasterAutoOne extends OpMode {
                 DogeCV.CameraMode.WEBCAM, false, webcam);
         detector.enable();
 
-        GoSideways goSidewaysOne = new GoSideways (0.75, 0, detector, null);
+        GoSideways goSidewaysOne = new GoSideways (0.75, 0, detector, null, null);
         GoForwards goForwardsOne = new GoForwards (-0.8, 1000);
         PassthroughOn passthroughOn = new PassthroughOn();
         parallelCommandOne = new ParallelCommand(goForwardsOne, passthroughOn, true);
         GoForwards goBackwardsOne = new GoForwards(0.8, 1000);
-        GoSideways goSidewaysTwo = new GoSideways(0.75, 4000, null, null);
+        GoSideways goSidewaysTwo = new GoSideways(0.75, 4000, null, null, null);
         passthrough.update(false, false, 0);
         scheduler.add(goSidewaysOne);
         scheduler.add(parallelCommandOne);
