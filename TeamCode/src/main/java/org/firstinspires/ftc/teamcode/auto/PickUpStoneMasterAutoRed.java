@@ -16,9 +16,10 @@ import org.firstinspires.ftc.teamcode.commands.ParallelCommand;
 import org.firstinspires.ftc.teamcode.commands.PassthroughOff;
 import org.firstinspires.ftc.teamcode.commands.PassthroughOn;
 import org.firstinspires.ftc.teamcode.commands.Scheduler;
+import org.firstinspires.ftc.teamcode.commands.WaitCommand;
 
 @Autonomous
-public class PickUpStoneMasterAuto extends OpMode {
+public class PickUpStoneMasterAutoRed extends OpMode {
 
     Drivetrain drivetrain;
     Passthrough passthrough;
@@ -34,25 +35,26 @@ public class PickUpStoneMasterAuto extends OpMode {
         scheduler = new Scheduler(drivetrain, null, null, telemetry, passthrough, dropOff);
         groundDetector = new GroundDetector(hardwareMap, telemetry);
 
-        ClampControl clampControl = new ClampControl(0.5);
-        ClampControl clampControl1 = new ClampControl(0);
-        ParallelCommand parallelCommand1 = new ParallelCommand(new DriveForTime(-0.75, 2500), new PassthroughOn(), false);
+        ParallelCommand parallelCommand1 = new ParallelCommand(new DriveForTime(-0.65, 2550), new PassthroughOn(true, false), false);
         PassthroughOff passthroughOff = new PassthroughOff(true);
-        GoForwards goBackwards = new GoForwards(0.5, 2000);
-        GoSideways goSideways1 = new GoSideways(-0.75, -2000, null, null, null);
-        ClampControl clampUp = new ClampControl(0);
-        ClampControl clampDown = new ClampControl(180);
-        GoSideways goSideways2 = new GoSideways(0.5, 0, null, null, groundDetector);
+        DriveForTime goBackwards = new DriveForTime(0.75, 1450);
+        GoSideways goSideways1 = new GoSideways(0.75, 12.5, null, null, null);
+        GoSideways stop1 = new GoSideways(0, 0, null, null, null);
+        PassthroughOn spitOut = new PassthroughOn(false, true);
+        WaitCommand wait = new WaitCommand(300);
+        GoSideways goSideways2 = new GoSideways(-0.75, 12, null, null, null);
+        GoSideways stop = new GoSideways (0, 0, null, null, null);
 
-        scheduler.add(clampControl);
-        scheduler.add(clampControl1);
         scheduler.add(parallelCommand1);
         scheduler.add(passthroughOff);
         scheduler.add(goBackwards);
         scheduler.add(goSideways1);
-        scheduler.add(clampUp);
-        scheduler.add(clampDown);
+        scheduler.add(stop1);
+        scheduler.add(spitOut);
+        scheduler.add(wait);
+        scheduler.add(passthroughOff);
         scheduler.add(goSideways2);
+        scheduler.add(stop);
         drivetrain.ResetEncoders();
     }
     public void loop() {

@@ -9,7 +9,7 @@ public class PassthroughOff extends Command {
     }
 
     void start(){
-        passthrough.update(false, false, 0);
+        passthrough.update(false, false, 1);
     }
     void loop() {}
     boolean isFinished() {

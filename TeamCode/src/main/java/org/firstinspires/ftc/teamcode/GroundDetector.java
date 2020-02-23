@@ -18,7 +18,7 @@ public class GroundDetector {
         if (colourSensor.red() > 128) {
             isRed = true;
         }
-        if (colourSensor.blue() > 128) {
+        if (colourSensor.blue() > 20) {
             isBlue = true;
         }
     }

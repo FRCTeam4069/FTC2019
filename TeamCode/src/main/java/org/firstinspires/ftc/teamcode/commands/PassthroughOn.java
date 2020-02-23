@@ -4,15 +4,18 @@ public class PassthroughOn extends Command {
 
     public double time;
     public double time2;
+    private boolean forward;
+    private boolean reverse;
 
-    public PassthroughOn() {
-
+    public PassthroughOn(boolean forward, boolean reverse) {
+        this.forward = forward;
+        this.reverse = reverse;
     }
         void start(){
         time = System.currentTimeMillis();
         }
         void loop() {
-            passthrough.update(true, false, 0);
+            passthrough.update(forward, reverse, 1);
             telemetry.addData("running passthrough", true);
             time2 = System.currentTimeMillis();
         }

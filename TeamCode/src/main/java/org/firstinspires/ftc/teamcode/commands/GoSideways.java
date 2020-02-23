@@ -26,7 +26,7 @@ public class GoSideways extends Command {
     @Override
     public void loop() {
 
-        drivetrain.update(speed, 0, 0.05, false, false);
+        drivetrain.update(speed, 0, -0.015, false, false);
 
         if(normalStoneDetector != null && drivingPosition == 0) {
             telemetry.addData("Position", normalStoneDetector.position);
@@ -53,11 +53,11 @@ public class GoSideways extends Command {
             }
         }
         else if(skyStoneDetector == null && normalStoneDetector == null && drivingPosition != 0) {
-            if (drivingPosition  <  -drivetrain.rightFrontWheelPosition) {
+            if (drivingPosition  <  - drivetrain.rightFrontWheelPosition) {
                 done = true;
             }
         }
-        else if (skyStoneDetector == null && normalStoneDetector == null && drivingPosition == 0) {
+        else if (skyStoneDetector == null && normalStoneDetector == null && drivingPosition == 0 && groundDetector != null) {
             if (groundDetector.isBlue) {
                 done = true;
             }
@@ -65,7 +65,10 @@ public class GoSideways extends Command {
                 done = true;
             }
         }
-        else if (done) {
+        else{
+            done = true;
+        }
+        if (done) {
             drivetrain.update(0, 0, 0, false, false);
         }
         return done;

@@ -16,5 +16,6 @@ public class GroundDetectorTest extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("isBlue", groundDetector.isBlue);
+        telemetry.addData("isRed", groundDetector.isRed);
     }
 }

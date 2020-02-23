@@ -28,8 +28,8 @@ public class Passthrough {
             PTRight.setPower(1);
         }
         else if (reverse) {
-            PTLeft.setPower(1);
-            PTRight.setPower(-1);
+            PTLeft.setPower(0.75);
+            PTRight.setPower(-0.75);
         }
         else {
             PTLeft.setPower(0);

@@ -46,7 +46,7 @@ public class MasterAutoOne extends OpMode {
 
         GoSideways goSidewaysOne = new GoSideways (0.75, 0, detector, null, null);
         GoForwards goForwardsOne = new GoForwards (-0.8, 1000);
-        PassthroughOn passthroughOn = new PassthroughOn();
+        PassthroughOn passthroughOn = new PassthroughOn(true, false);
         parallelCommandOne = new ParallelCommand(goForwardsOne, passthroughOn, true);
         GoForwards goBackwardsOne = new GoForwards(0.8, 1000);
         GoSideways goSidewaysTwo = new GoSideways(0.75, 4000, null, null, null);
